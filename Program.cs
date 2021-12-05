@@ -82,7 +82,7 @@ namespace Sklep_Internetowy
 
                             //Console.WriteLine("Press any key to exit...");
                             //Console.ReadKey();
-                            if (tabela == "Adres")
+                            if (tabela == "Dane Kontaktowe")
                             {
                                 int numer = AnsiConsole.Ask<int>("Podaj [green]numer telefonu[/]?");
                                
