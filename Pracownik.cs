@@ -17,8 +17,8 @@ namespace Sklep_Internetowy
         public int Id_pracownika { get; set; }
         public string imie { get; set; }
         public string nazwisko { get; set; }
-        public System.DateTime data_zatrunienia { get; set; }
-        public int Id_adresu { get; set; }
-        public int Id_kontaktu { private get; set; }
+        public Nullable<System.DateTime> data_zatrunienia { get; set; }
+        public Nullable<int> Id_adresu { get; set; }
+        public Nullable<int> Id_kontaktu { private get; set; }
     }
 }

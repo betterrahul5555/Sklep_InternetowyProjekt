@@ -26,10 +26,10 @@ namespace Sklep_Internetowy
         public string nazwa { get; set; }
         public string opis { get; set; }
         public Nullable<int> Id_zdjecia { get; set; }
-        public Nullable<double> cena_brutto { get; set; }
         public Nullable<double> cena_netto { get; set; }
         public Nullable<double> procent_vat { get; set; }
         public int Faktura_produktuId_faktura_produktu { get; set; }
+        public Nullable<double> cena_brutto { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Kategoria_produktu> Kategoria_produktu { get; set; }

@@ -24,8 +24,8 @@ namespace Sklep_Internetowy
         public int Id_produktu { get; set; }
         public int numer_faktury { get; set; }
     
-        public virtual Faktura Faktura { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Produkt> Produkt { get; set; }
+        public virtual Faktura FakturaSet { get; set; }
     }
 }

@@ -17,17 +17,17 @@ namespace Sklep_Internetowy
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Faktura()
         {
-            this.Faktura_produktu = new HashSet<Faktura_produktu>();
+            this.Faktura_produktuSet = new HashSet<Faktura_produktu>();
         }
     
         public int numer_faktury { get; set; }
         public int Id_klienta { get; set; }
         public Nullable<System.DateTime> data_sprzedaży { get; set; }
-        public Nullable<double> wartość_brutto { get; set; }
         public Nullable<double> wartość_netto { get; set; }
         public Nullable<bool> czy_dostawa { get; set; }
+        public double procent_podatku { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Faktura_produktu> Faktura_produktu { get; set; }
+        public virtual ICollection<Faktura_produktu> Faktura_produktuSet { get; set; }
     }
 }

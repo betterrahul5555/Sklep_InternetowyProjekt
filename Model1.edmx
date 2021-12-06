@@ -29,10 +29,6 @@
       <End Role="Kategoria" EntitySet="KategoriaSet" />
       <End Role="Kategoria_produktu" EntitySet="Kategoria_produktuSet" />
     </AssociationSet>
-    <AssociationSet Name="FakturaFaktura_produktu" Association="Model1.Store.FakturaFaktura_produktu">
-      <End Role="Faktura" EntitySet="FakturaSet" />
-      <End Role="Faktura_produktu" EntitySet="Faktura_produktuSet" />
-    </AssociationSet>
     <AssociationSet Name="Faktura_produktuProdukt" Association="Model1.Store.Faktura_produktuProdukt">
       <End Role="Faktura_produktu" EntitySet="Faktura_produktuSet" />
       <End Role="Produkt" EntitySet="ProduktSet" />
@@ -40,6 +36,10 @@
     <AssociationSet Name="ProduktZdjęcia" Association="Model1.Store.ProduktZdjęcia">
       <End Role="Produkt" EntitySet="ProduktSet" />
       <End Role="Zdjęcia" EntitySet="ZdjęciaSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FakturaFaktura_produktu" Association="Model1.Store.FK_FakturaFaktura_produktu">
+      <End Role="Faktura" EntitySet="FakturaSet" />
+      <End Role="Faktura_produktu" EntitySet="Faktura_produktuSet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="AdresSet">
@@ -69,11 +69,11 @@
       <PropertyRef Name="Id_pracownika" />
     </Key>
     <Property Name="Id_pracownika" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="imie" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="nazwisko" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="data_zatrunienia" Type="datetime" Nullable="false" />
-    <Property Name="Id_adresu" Type="int" Nullable="false" />
-    <Property Name="Id_kontaktu" Type="int" Nullable="false" />
+    <Property Name="imie" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="nazwisko" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="data_zatrunienia" Type="datetime" Nullable="true" />
+    <Property Name="Id_adresu" Type="int" Nullable="true" />
+    <Property Name="Id_kontaktu" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="Dane_kontaktoweSet">
     <Key>
@@ -92,10 +92,10 @@
     <Property Name="nazwa" Type="nvarchar(max)" Nullable="true" />
     <Property Name="opis" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Id_zdjecia" Type="int" Nullable="true" />
-    <Property Name="cena_brutto" Type="float" Nullable="true" />
     <Property Name="cena_netto" Type="float" Nullable="true" />
     <Property Name="procent_vat" Type="float" Nullable="true" />
     <Property Name="Faktura_produktuId_faktura_produktu" Type="int" Nullable="false" />
+    <Property Name="cena_brutto" Type="float" Nullable="true" />
   </EntityType>
   <EntityType Name="FakturaSet">
     <Key>
@@ -104,9 +104,9 @@
     <Property Name="numer_faktury" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Id_klienta" Type="int" Nullable="false" />
     <Property Name="data_sprzedaży" Type="datetime" Nullable="true" />
-    <Property Name="wartość_brutto" Type="float" Nullable="true" />
     <Property Name="wartość_netto" Type="float" Nullable="true" />
     <Property Name="czy_dostawa" Type="bit" Nullable="true" />
+    <Property Name="procent_podatku" Type="float" Nullable="false" />
   </EntityType>
   <EntityType Name="Faktura_produktuSet">
     <Key>
@@ -187,18 +187,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FakturaFaktura_produktu">
-    <End Role="Faktura" Type="Model1.Store.FakturaSet" Multiplicity="1" />
-    <End Role="Faktura_produktu" Type="Model1.Store.Faktura_produktuSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Faktura">
-        <PropertyRef Name="numer_faktury" />
-      </Principal>
-      <Dependent Role="Faktura_produktu">
-        <PropertyRef Name="numer_faktury" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="Faktura_produktuProdukt">
     <End Role="Faktura_produktu" Type="Model1.Store.Faktura_produktuSet" Multiplicity="1" />
     <End Role="Produkt" Type="Model1.Store.ProduktSet" Multiplicity="*" />
@@ -220,6 +208,18 @@
       </Principal>
       <Dependent Role="Zdjęcia">
         <PropertyRef Name="ProduktId_produktu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FakturaFaktura_produktu">
+    <End Role="Faktura" Type="Model1.Store.FakturaSet" Multiplicity="1" />
+    <End Role="Faktura_produktu" Type="Model1.Store.Faktura_produktuSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Faktura">
+        <PropertyRef Name="numer_faktury" />
+      </Principal>
+      <Dependent Role="Faktura_produktu">
+        <PropertyRef Name="numer_faktury" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -251,10 +251,6 @@
             <End Role="Kategoria" EntitySet="KategoriaSet" />
             <End Role="Kategoria_produktu" EntitySet="Kategoria_produktuSet" />
           </AssociationSet>
-          <AssociationSet Name="FakturaFaktura_produktu" Association="Model1.FakturaFaktura_produktu">
-            <End Role="Faktura" EntitySet="FakturaSet" />
-            <End Role="Faktura_produktu" EntitySet="Faktura_produktuSet" />
-          </AssociationSet>
           <AssociationSet Name="Faktura_produktuProdukt" Association="Model1.Faktura_produktuProdukt">
             <End Role="Faktura_produktu" EntitySet="Faktura_produktuSet" />
             <End Role="Produkt" EntitySet="ProduktSet" />
@@ -262,6 +258,10 @@
           <AssociationSet Name="ProduktZdjęcia" Association="Model1.ProduktZdjęcia">
             <End Role="Produkt" EntitySet="ProduktSet" />
             <End Role="Zdjęcia" EntitySet="ZdjęciaSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FakturaFaktura_produktu" Association="Model1.FK_FakturaFaktura_produktu">
+            <End Role="Faktura" EntitySet="FakturaSet" />
+            <End Role="Faktura_produktu" EntitySet="Faktura_produktuSet" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Adres">
@@ -291,11 +291,11 @@
             <PropertyRef Name="Id_pracownika" />
           </Key>
           <Property Name="Id_pracownika" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="imie" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="nazwisko" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="data_zatrunienia" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Id_adresu" Type="Int32" Nullable="false" />
-          <Property Name="Id_kontaktu" Type="Int32" Nullable="false" cg:GetterAccess="Private" />
+          <Property Name="imie" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="nazwisko" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="data_zatrunienia" Type="DateTime" Precision="3" />
+          <Property Name="Id_adresu" Type="Int32" />
+          <Property Name="Id_kontaktu" Type="Int32" cg:GetterAccess="Private" />
         </EntityType>
         <EntityType Name="Dane_kontaktowe">
           <Key>
@@ -314,13 +314,13 @@
           <Property Name="nazwa" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="opis" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Id_zdjecia" Type="Int32" Nullable="true" />
-          <Property Name="cena_brutto" Type="Double" Nullable="true" />
           <Property Name="cena_netto" Type="Double" Nullable="true" />
           <Property Name="procent_vat" Type="Double" Nullable="true" />
           <NavigationProperty Name="Kategoria_produktu" Relationship="Model1.ProduktKategoria_produktu" FromRole="Produkt" ToRole="Kategoria_produktu" />
           <NavigationProperty Name="Faktura_produktu" Relationship="Model1.Faktura_produktuProdukt" FromRole="Produkt" ToRole="Faktura_produktu" />
           <Property Name="Faktura_produktuId_faktura_produktu" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Zdjęcia" Relationship="Model1.ProduktZdjęcia" FromRole="Produkt" ToRole="Zdjęcia" />
+          <Property Name="cena_brutto" Type="Double" />
         </EntityType>
         <EntityType Name="Faktura">
           <Key>
@@ -329,10 +329,10 @@
           <Property Name="numer_faktury" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Id_klienta" Type="Int32" Nullable="false" />
           <Property Name="data_sprzedaży" Type="DateTime" Nullable="true" Precision="3" />
-          <Property Name="wartość_brutto" Type="Double" Nullable="true" />
           <Property Name="wartość_netto" Type="Double" Nullable="true" />
           <Property Name="czy_dostawa" Type="Boolean" Nullable="true" />
-          <NavigationProperty Name="Faktura_produktu" Relationship="Model1.FakturaFaktura_produktu" FromRole="Faktura" ToRole="Faktura_produktu" />
+          <Property Name="procent_podatku" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Faktura_produktuSet" Relationship="Model1.FK_FakturaFaktura_produktu" FromRole="Faktura" ToRole="Faktura_produktu" />
         </EntityType>
         <EntityType Name="Faktura_produktu">
           <Key>
@@ -341,8 +341,8 @@
           <Property Name="Id_faktura_produktu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Id_produktu" Type="Int32" Nullable="false" />
           <Property Name="numer_faktury" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Faktura" Relationship="Model1.FakturaFaktura_produktu" FromRole="Faktura_produktu" ToRole="Faktura" />
           <NavigationProperty Name="Produkt" Relationship="Model1.Faktura_produktuProdukt" FromRole="Faktura_produktu" ToRole="Produkt" />
+          <NavigationProperty Name="FakturaSet" Relationship="Model1.FK_FakturaFaktura_produktu" FromRole="Faktura_produktu" ToRole="Faktura" />
         </EntityType>
         <EntityType Name="Zdjęcia">
           <Key>
@@ -394,18 +394,6 @@
           <End Type="Model1.Kategoria" Role="Kategoria" Multiplicity="1" />
           <End Type="Model1.Kategoria_produktu" Role="Kategoria_produktu" Multiplicity="*" />
         </Association>
-        <Association Name="FakturaFaktura_produktu">
-          <End Type="Model1.Faktura" Role="Faktura" Multiplicity="1" />
-          <End Type="Model1.Faktura_produktu" Role="Faktura_produktu" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Faktura">
-              <PropertyRef Name="numer_faktury" />
-            </Principal>
-            <Dependent Role="Faktura_produktu">
-              <PropertyRef Name="numer_faktury" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="Faktura_produktuProdukt">
           <End Type="Model1.Faktura_produktu" Role="Faktura_produktu" Multiplicity="1" />
           <End Type="Model1.Produkt" Role="Produkt" Multiplicity="*" />
@@ -427,6 +415,18 @@
             </Principal>
             <Dependent Role="Zdjęcia">
               <PropertyRef Name="ProduktId_produktu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FakturaFaktura_produktu">
+          <End Type="Model1.Faktura" Role="Faktura" Multiplicity="1" />
+          <End Type="Model1.Faktura_produktu" Role="Faktura_produktu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Faktura">
+              <PropertyRef Name="numer_faktury" />
+            </Principal>
+            <Dependent Role="Faktura_produktu">
+              <PropertyRef Name="numer_faktury" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -489,10 +489,10 @@
           <ScalarProperty Name="nazwa" ColumnName="nazwa" />
           <ScalarProperty Name="opis" ColumnName="opis" />
           <ScalarProperty Name="Id_zdjecia" ColumnName="Id_zdjecia" />
-          <ScalarProperty Name="cena_brutto" ColumnName="cena_brutto" />
           <ScalarProperty Name="cena_netto" ColumnName="cena_netto" />
           <ScalarProperty Name="procent_vat" ColumnName="procent_vat" />
           <ScalarProperty Name="Faktura_produktuId_faktura_produktu" ColumnName="Faktura_produktuId_faktura_produktu" />
+          <ScalarProperty Name="cena_brutto" ColumnName="cena_brutto" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -502,9 +502,9 @@
           <ScalarProperty Name="numer_faktury" ColumnName="numer_faktury" />
           <ScalarProperty Name="Id_klienta" ColumnName="Id_klienta" />
           <ScalarProperty Name="data_sprzedaży" ColumnName="data_sprzedaży" />
-          <ScalarProperty Name="wartość_brutto" ColumnName="wartość_brutto" />
           <ScalarProperty Name="wartość_netto" ColumnName="wartość_netto" />
           <ScalarProperty Name="czy_dostawa" ColumnName="czy_dostawa" />
+          <ScalarProperty Name="procent_podatku" ColumnName="procent_podatku" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
