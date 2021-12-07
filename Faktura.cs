@@ -25,7 +25,7 @@ namespace Sklep_Internetowy
         public Nullable<System.DateTime> data_sprzedaży { get; set; }
         public Nullable<double> wartość_netto { get; set; }
         public Nullable<bool> czy_dostawa { get; set; }
-        public double procent_podatku { get; set; }
+        public Nullable<double> procent_podatku { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Faktura_produktu> Faktura_produktuSet { get; set; }

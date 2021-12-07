@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/06/2021 17:34:19
+-- Date Created: 12/07/2021 12:17:30
 -- Generated from EDMX file: C:\Users\Janek\source\repos\Sklep_Internetowy\Model1.edmx
 -- --------------------------------------------------
 
@@ -17,11 +17,8 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_Faktura_produktuProdukt]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ProduktSet] DROP CONSTRAINT [FK_Faktura_produktuProdukt];
-GO
-IF OBJECT_ID(N'[dbo].[FK_FakturaFaktura_produktu]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Faktura_produktuSet] DROP CONSTRAINT [FK_FakturaFaktura_produktu];
+IF OBJECT_ID(N'[dbo].[FK_ProduktKategoria_produktu]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Kategoria_produktuSet] DROP CONSTRAINT [FK_ProduktKategoria_produktu];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Kategoria_produktuProducent]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Kategoria_produktuSet] DROP CONSTRAINT [FK_Kategoria_produktuProducent];
@@ -29,11 +26,14 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_KategoriaKategoria_produktu]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Kategoria_produktuSet] DROP CONSTRAINT [FK_KategoriaKategoria_produktu];
 GO
-IF OBJECT_ID(N'[dbo].[FK_ProduktKategoria_produktu]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Kategoria_produktuSet] DROP CONSTRAINT [FK_ProduktKategoria_produktu];
+IF OBJECT_ID(N'[dbo].[FK_Faktura_produktuProdukt]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ProduktSet] DROP CONSTRAINT [FK_Faktura_produktuProdukt];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ProduktZdjęcia]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ZdjęciaSet] DROP CONSTRAINT [FK_ProduktZdjęcia];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FakturaFaktura_produktu]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Faktura_produktuSet] DROP CONSTRAINT [FK_FakturaFaktura_produktu];
 GO
 
 -- --------------------------------------------------
@@ -43,14 +43,26 @@ GO
 IF OBJECT_ID(N'[dbo].[AdresSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AdresSet];
 GO
+IF OBJECT_ID(N'[dbo].[KlientSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[KlientSet];
+GO
+IF OBJECT_ID(N'[dbo].[PracownikSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PracownikSet];
+GO
 IF OBJECT_ID(N'[dbo].[Dane_kontaktoweSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Dane_kontaktoweSet];
+GO
+IF OBJECT_ID(N'[dbo].[ProduktSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ProduktSet];
+GO
+IF OBJECT_ID(N'[dbo].[FakturaSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[FakturaSet];
 GO
 IF OBJECT_ID(N'[dbo].[Faktura_produktuSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Faktura_produktuSet];
 GO
-IF OBJECT_ID(N'[dbo].[FakturaSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[FakturaSet];
+IF OBJECT_ID(N'[dbo].[ZdjęciaSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ZdjęciaSet];
 GO
 IF OBJECT_ID(N'[dbo].[Kategoria_produktuSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Kategoria_produktuSet];
@@ -58,20 +70,8 @@ GO
 IF OBJECT_ID(N'[dbo].[KategoriaSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[KategoriaSet];
 GO
-IF OBJECT_ID(N'[dbo].[KlientSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[KlientSet];
-GO
-IF OBJECT_ID(N'[dbo].[PracownikSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PracownikSet];
-GO
 IF OBJECT_ID(N'[dbo].[ProducentSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ProducentSet];
-GO
-IF OBJECT_ID(N'[dbo].[ProduktSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[ProduktSet];
-GO
-IF OBJECT_ID(N'[dbo].[ZdjęciaSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[ZdjęciaSet];
 GO
 
 -- --------------------------------------------------
@@ -128,8 +128,9 @@ CREATE TABLE [dbo].[ProduktSet] (
     [Id_zdjecia] int  NULL,
     [cena_netto] float  NULL,
     [procent_vat] float  NULL,
-    [Faktura_produktuId_faktura_produktu] int  NOT NULL,
-    [cena_brutto] float  NULL
+    [Faktura_produktuId_faktura_produktu] int  NULL,
+    [cena_brutto] float  NULL,
+    [Faktura_produktu_Id_faktura_produktu] int  NULL
 );
 GO
 
@@ -155,10 +156,11 @@ GO
 -- Creating table 'ZdjęciaSet'
 CREATE TABLE [dbo].[ZdjęciaSet] (
     [Id_zdjecia] int IDENTITY(1,1) NOT NULL,
-    [nazwa] nvarchar(max)  NOT NULL,
-    [data] datetime  NOT NULL,
-    [Id_produktu] int  NOT NULL,
-    [ProduktId_produktu] int  NOT NULL
+    [nazwa] nvarchar(max)  NULL,
+    [data] datetime  NULL,
+    [Id_produktu] int  NULL,
+    [ProduktId_produktu] int  NULL,
+    [Produkt_Id_produktu] int  NOT NULL
 );
 GO
 
@@ -306,10 +308,10 @@ ON [dbo].[Kategoria_produktuSet]
     ([Kategoria_Id_kategorii]);
 GO
 
--- Creating foreign key on [Faktura_produktuId_faktura_produktu] in table 'ProduktSet'
+-- Creating foreign key on [Faktura_produktu_Id_faktura_produktu] in table 'ProduktSet'
 ALTER TABLE [dbo].[ProduktSet]
 ADD CONSTRAINT [FK_Faktura_produktuProdukt]
-    FOREIGN KEY ([Faktura_produktuId_faktura_produktu])
+    FOREIGN KEY ([Faktura_produktu_Id_faktura_produktu])
     REFERENCES [dbo].[Faktura_produktuSet]
         ([Id_faktura_produktu])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -318,13 +320,13 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_Faktura_produktuProdukt'
 CREATE INDEX [IX_FK_Faktura_produktuProdukt]
 ON [dbo].[ProduktSet]
-    ([Faktura_produktuId_faktura_produktu]);
+    ([Faktura_produktu_Id_faktura_produktu]);
 GO
 
--- Creating foreign key on [ProduktId_produktu] in table 'ZdjęciaSet'
+-- Creating foreign key on [Produkt_Id_produktu] in table 'ZdjęciaSet'
 ALTER TABLE [dbo].[ZdjęciaSet]
 ADD CONSTRAINT [FK_ProduktZdjęcia]
-    FOREIGN KEY ([ProduktId_produktu])
+    FOREIGN KEY ([Produkt_Id_produktu])
     REFERENCES [dbo].[ProduktSet]
         ([Id_produktu])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -333,7 +335,7 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_ProduktZdjęcia'
 CREATE INDEX [IX_FK_ProduktZdjęcia]
 ON [dbo].[ZdjęciaSet]
-    ([ProduktId_produktu]);
+    ([Produkt_Id_produktu]);
 GO
 
 -- Creating foreign key on [numer_faktury] in table 'Faktura_produktuSet'

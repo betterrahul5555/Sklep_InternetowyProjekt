@@ -19,9 +19,9 @@
         <EntityTypeShape EntityType="Model1.Producent" Width="1.5" PointX="10.75" PointY="9.25" />
         <AssociationConnector Association="Model1.Kategoria_produktuProducent" />
         <AssociationConnector Association="Model1.KategoriaKategoria_produktu" />
-        <AssociationConnector Association="Model1.Faktura_produktuProdukt" />
-        <AssociationConnector Association="Model1.ProduktZdjęcia" />
         <AssociationConnector Association="Model1.FK_FakturaFaktura_produktu" />
+        <AssociationConnector Association="Model1.FK_Faktura_produktuProdukt" />
+        <AssociationConnector Association="Model1.FK_ProduktZdjęcia" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

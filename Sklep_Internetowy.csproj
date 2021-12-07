@@ -74,7 +74,6 @@
     <Compile Include="Dane_kontaktowe.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Dodawanie.cs" />
     <Compile Include="Faktura.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

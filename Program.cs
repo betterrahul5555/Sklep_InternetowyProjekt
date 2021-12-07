@@ -1,8 +1,10 @@
 ﻿using Spectre.Console;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sklep_Internetowy
@@ -11,8 +13,7 @@ namespace Sklep_Internetowy
     {
        public static string menu()
         {
-            using (var db = new Model1Container())
-            {
+            
                 var fruit = AnsiConsole.Prompt(
    new SelectionPrompt<string>()
        .Title("[green]Witaj![/] co zamierzasz zrobić ?")
@@ -23,7 +24,7 @@ namespace Sklep_Internetowy
             "Wyświetl",
        }));
                 return fruit.ToString();
-            }
+            
         }
         static void Main(string[] args)
         {
@@ -36,13 +37,63 @@ namespace Sklep_Internetowy
                         
                             var tabela = AnsiConsole.Prompt(
            new SelectionPrompt<string>()
-               .Title("[blue]Co zamierzasz dodać?[/]")
-               .PageSize(10)
+               .Title("[blue]Co zamierzasz dodać?          [/]")
+               .PageSize(12)
                .MoreChoicesText("[grey]()[/]")
                .AddChoices(new[] {
             "Adres", "Dane Kontaktowe", "Faktura",
-            "Faktura produktu","Klient","Pracownik","Producent","Produkt","Zdjęcia"
+            "Faktura produktu","Klient","Pracownik","Producent","Produkt","Zdjęcia","Kategoria","Kategoria produktu"
                }));
+                            if (tabela == "Produkt")
+                            {
+                              
+                                string nazwa = AnsiConsole.Ask<string>("Podaj [green]nazwe produktu[/]?");
+                                string opis = AnsiConsole.Ask<string>("Podaj [green]opis[/]?");
+                                double cena_netto = AnsiConsole.Ask<double>("Podaj [green]cena netto[/]?");
+                                double procent = AnsiConsole.Ask<double>("Podaj [green]procent vat[/]?");
+                                double cena_brutto = AnsiConsole.Ask<double>("Podaj [green]cena brutto[/]?");
+                               //= AnsiConsole.Ask<int>("Podaj [green]id_kategorii[/]?");
+                                AnsiConsole.Markup("Podaj [green]id kategorii produktu[/]? ");
+                                int id_kategorii_produktu = AnsiConsole.Ask<int>("Podaj [green]id_kategorii_produktu[/]?");
+
+
+                                int id_faktura_produktu = AnsiConsole.Ask<int>("Podaj [green]id_faktura_produktu[/]?");
+
+
+                                 int id_zdjecia = AnsiConsole.Ask<int>("Podaj [green]id_kategorii_produktu [/]?");
+
+
+
+
+                                    var produkt = new Produkt()
+                                    {
+                                        nazwa = nazwa,
+                                        opis = opis,
+                                        cena_brutto = cena_brutto,
+                                        cena_netto = cena_netto,
+                                        Id_kategorii_produktu = id_kategorii_produktu,
+                                        procent_vat = procent,
+                                        Faktura_produktuId_faktura_produktu = id_faktura_produktu,
+                                        Id_zdjecia = id_zdjecia
+                                    };
+                                
+                                try {db.ProduktSet.Add(produkt);
+                                    db.SaveChanges();
+                                }
+                                catch (Exception e)
+                                {
+                                    // Extract some information from this exception, and then
+                                    // throw it to the parent method.
+                                    if (e.Source != null) {
+                                        AnsiConsole.Markup("[underline green]Nie udało się dodać do bazy.\nSprawdź dane!\n Za chwile wrócisz do menu [/]"); }
+                                    Thread.Sleep(4000);
+                                    
+                                }
+                               
+                                Console.Clear();
+                                
+
+                            }
                             if (tabela == "Adres")//działa
                             {
                                 string miasto = AnsiConsole.Ask<string>("Podaj [green]miasto[/]?");
@@ -64,10 +115,26 @@ namespace Sklep_Internetowy
                                     Klient_Id_klienta = id_klienta
 
                                 };
-                                db.AdresSet.Add(adres);
-                              
-                                db.SaveChanges();
-                            }
+                             
+
+                                try
+                                {
+                                    db.AdresSet.Add(adres);
+                                    db.SaveChanges();
+                                }
+                                catch (Exception e)
+                                {
+                                    // Extract some information from this exception, and then
+                                    // throw it to the parent method.
+                                    if (e.Source != null)
+                                    {
+                                        Console.Clear();
+                                        AnsiConsole.Markup("[underline green]Nie udało się dodać do bazy.\nSprawdź dane!\n Za chwile wrócisz do menu [/]");
+                                        Thread.Sleep(4000);
+                                    }
+                                 }
+                                Console.Clear();
+                                 }
 
                             //// Display all Blogs from the database
                             //var query = from b in db.AdresSet
@@ -103,20 +170,26 @@ namespace Sklep_Internetowy
                                     wartość_netto = wartość_netto,
                                     procent_podatku = procent,
                                     czy_dostawa =czy_dostawa
-                                 
-
-
-
-                                 
-
                                 };
-                                db.FakturaSet.Add(faktura);
+                                try
+                                {
+                                    db.FakturaSet.Add(faktura);
 
-                                db.SaveChanges();
+                                    db.SaveChanges();
+                                }
+                                catch (Exception e)
+                                {
+                                    // Extract some information from this exception, and then
+                                    // throw it to the parent method.
+                                    if (e.Source != null)
+                                    {
+                                        Console.Clear();
+                                        AnsiConsole.Markup("[underline green]Nie udało się dodać do bazy.\nSprawdź dane!\n Za chwile wrócisz do menu [/]");
+                                        Thread.Sleep(4000);
+                                    }
+                                }
+                                Console.Clear();
 
-
-
-                                db.SaveChanges();
                             }
                             if (tabela == "Faktura produktu")
                             {
@@ -134,9 +207,26 @@ namespace Sklep_Internetowy
                                   
 
                                 };
-                                db.Faktura_produktuSet.Add(faktura_produktu);
+                                try
+                                {
+                                    db.Faktura_produktuSet.Add(faktura_produktu);
 
-                                db.SaveChanges();
+                                    db.SaveChanges();
+                                }
+                                catch (Exception e)
+                                {
+                                    // Extract some information from this exception, and then
+                                    // throw it to the parent method.
+                                    if (e.Source != null)
+                                    {
+                                        Console.Clear();
+                                        AnsiConsole.Markup("[underline green]Nie udało się dodać do bazy.\nSprawdź dane!\n Za chwile wrócisz do menu [/]");
+                                        Thread.Sleep(4000);
+                                    }
+                                }
+                                Console.Clear();
+                                
+
                             }
                             if (tabela == "Kategoria")
                             {
@@ -151,9 +241,25 @@ namespace Sklep_Internetowy
 
 
                                 };
-                                db.KategoriaSet.Add(faktura_produktu);
+                                try
+                                {
+                                    db.KategoriaSet.Add(faktura_produktu);
 
-                                db.SaveChanges();
+
+                                    db.SaveChanges();
+                                }
+                                catch (Exception e)
+                                {
+                                    // Extract some information from this exception, and then
+                                    // throw it to the parent method.
+                                    if (e.Source != null)
+                                    {
+                                        AnsiConsole.Markup("[underline green]Nie udało się dodać do bazy.\nSprawdź dane!\n Za chwile wrócisz do menu [/]");
+                                    }
+                                    Thread.Sleep(4000);
+
+                                }
+                                Console.Clear();
                             }
 
                             if (tabela == "Kategoria produktu")
@@ -172,16 +278,184 @@ namespace Sklep_Internetowy
 
 
                                 };
-                                db.Kategoria_produktuSet.Add(kategoria_produktu);
+                                try
+                                {
+                                    db.Kategoria_produktuSet.Add(kategoria_produktu);
+                                    db.SaveChanges();
+                                }
+                                catch (Exception e)
+                                {
+                                    // Extract some information from this exception, and then
+                                    // throw it to the parent method.
+                                    if (e.Source != null)
+                                    {
+                                        AnsiConsole.Markup("[underline green]Nie udało się dodać do bazy.\nSprawdź dane!\n Za chwile wrócisz do menu [/]");
+                                    }
+                                    Thread.Sleep(4000);
 
-                                db.SaveChanges();
+                                }
+                                Console.Clear();
+                                
                             }
+                            if (tabela == "Dane Kontaktowe")
+                            {
+                                int id_kontaktu = AnsiConsole.Ask<int>("Podaj [green]id kontaktu[/]?");
+                                int numer = AnsiConsole.Ask<int>("Podaj [green]numer[/]?");
+                                string email=AnsiConsole.Ask<string>("Podaj [green]numer[/]?");
+                                    
 
+                                var dane_Kontaktowe = new Dane_kontaktowe()
+                                {
+                                    Id_kontaktu=id_kontaktu,
+                                    numer=numer,emial=email
+                              };
+                                try
+                                {
+                                    db.Dane_kontaktoweSet.Add(dane_Kontaktowe);
+
+                                    db.SaveChanges();
+                                }
+                                catch (Exception e)
+                                {
+                                    // Extract some information from this exception, and then
+                                    // throw it to the parent method.
+                                    if (e.Source != null)
+                                    {
+                                        AnsiConsole.Markup("[underline green]Nie udało się dodać do bazy.\nSprawdź dane!\n Za chwile wrócisz do menu [/]");
+                                    }
+                                    Thread.Sleep(4000);
+
+                                }
+                                Console.Clear();
+                            }
+                            if (tabela == "Pracownik")
+                            {
+                               string imie = AnsiConsole.Ask<string>("Podaj [green]imie[/]?");
+                                string nazwisko = AnsiConsole.Ask<string>("Podaj [green]nazwisko[/]?");
+                                
+                                DateTime data = AnsiConsole.Ask<DateTime>("Podaj [green]date zatrudnie[/]?(W formie 05/06/2021)");
+                                int id_adresu= AnsiConsole.Ask<int>("Podaj [green]id adresu[/]?");
+                                int id_kontaktu = AnsiConsole.Ask<int>("Podaj [green]id kontaktu[/]?");
+                                
+
+
+                                var pracownik = new Pracownik()
+                                {
+                                    imie=imie,nazwisko=nazwisko,data_zatrunienia=data,Id_adresu=id_adresu,Id_kontaktu=id_kontaktu
+                                
+                                };
+                                try
+                                {
+                                    db.PracownikSet.Add(pracownik);
+                                    db.SaveChanges();
+                                }
+                                catch (Exception e)
+                                {
+                                    if (e.Source != null)
+                                    {
+                                        AnsiConsole.Markup("[underline green]Nie udało się dodać do bazy.\nSprawdź dane!\n Za chwile wrócisz do menu [/]");
+                                    }
+                                    Thread.Sleep(4000);
+
+                                }
+                                Console.Clear();
+                                
+                            }
+                            if (tabela == "Producent")
+                            {
+                                string nazwa = AnsiConsole.Ask<string>("Podaj [green]nazwe[/]?");
+                                var producent = new Producent()
+                                {
+                                    nazwa = nazwa
+
+                                };
+                                try
+                                {
+                                    db.ProducentSet.Add(producent); db.SaveChanges();
+                                }
+                                catch (Exception e)
+                                {
+                                    // Extract some information from this exception, and then
+                                    // throw it to the parent method.
+                                    if (e.Source != null)
+                                    {
+                                        AnsiConsole.Markup("[underline green]Nie udało się dodać do bazy.\nSprawdź dane!\n Za chwile wrócisz do menu [/]");
+                                    }
+                                    Thread.Sleep(4000);
+
+                                }
+
+
+                                Console.Clear();
+                            }
+                            if (tabela == "Zdjecia")
+                            {
+                                string nazwa = AnsiConsole.Ask<string>("Podaj [green]nazwe[/]?");
+                                DateTime localDate = DateTime.Now;
+
+                                int id_produktu = AnsiConsole.Ask<int>("Podaj [green]id produktu[/]?");
+
+                                var zdjęcia = new Zdjęcia()
+                                {
+                                    nazwa = nazwa,data=localDate,Id_produktu=id_produktu
+
+                                };
+                                try
+                                {
+                                    db.ZdjęciaSet.Add(zdjęcia); db.SaveChanges();
+                                }
+                                catch (Exception e)
+                                {
+                                    // Extract some information from this exception, and then
+                                    // throw it to the parent method.
+                                    if (e.Source != null)
+                                    {
+                                        AnsiConsole.Markup("[underline green]Nie udało się dodać do bazy.\nSprawdź dane!\n Za chwile wrócisz do menu [/]");
+                                    }
+                                    Thread.Sleep(4000);
+
+                                }
+
+                                Console.Clear();
+                            }
+                            if (tabela == "Klient")
+                            {
+                                string imie = AnsiConsole.Ask<string>("Podaj [green]imiee[/]?");
+                                string nazwisko = AnsiConsole.Ask<string>("Podaj [green]nazwisko[/]?");
+                                int id_kontaktu = AnsiConsole.Ask<int>("Podaj [green]id kontaktu[/]?");
+
+                                int id_adresu = AnsiConsole.Ask<int>("Podaj [green]id adresu[/]?");
+
+                                int id_produktu = AnsiConsole.Ask<int>("Podaj [green]id produktu[/]?");
+
+                                var klient = new Klient()
+                                {
+                                   imie=imie,nazwisko=nazwisko,Id_adresu=id_adresu,Id_kontaktu=id_kontaktu
+                                };
+                                try
+                                {
+                                    db.KlientSet.Add(klient); db.SaveChanges();
+                                }
+                                catch (Exception e)
+                                {
+                                    // Extract some information from this exception, and then
+                                    // throw it to the parent method.
+                                    if (e.Source != null)
+                                    {
+                                        AnsiConsole.Markup("[underline green]Nie udało się dodać do bazy.\nSprawdź dane!\n Za chwile wrócisz do menu [/]");
+                                    }
+                                    Thread.Sleep(4000);
+
+                                }
+
+                                Console.Clear();
+                            }
+                           
                             continue;
 
                     case "edytuj":
-                        Console.WriteLine($"Measured value is ; too high.");
-                        break;
+                            AnsiConsole.Markup("[underline green]Hello[/] ");
+                            break;
 
                     case "usuń":
                         Console.WriteLine("Failed measurement.");

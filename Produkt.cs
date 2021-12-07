@@ -18,7 +18,7 @@ namespace Sklep_Internetowy
         public Produkt()
         {
             this.Kategoria_produktu = new HashSet<Kategoria_produktu>();
-            this.Zdjęcia = new HashSet<Zdjęcia>();
+            this.ZdjęciaSet = new HashSet<Zdjęcia>();
         }
     
         public int Id_produktu { get; set; }
@@ -28,13 +28,13 @@ namespace Sklep_Internetowy
         public Nullable<int> Id_zdjecia { get; set; }
         public Nullable<double> cena_netto { get; set; }
         public Nullable<double> procent_vat { get; set; }
-        public int Faktura_produktuId_faktura_produktu { get; set; }
+        public Nullable<int> Faktura_produktuId_faktura_produktu { get; set; }
         public Nullable<double> cena_brutto { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Kategoria_produktu> Kategoria_produktu { get; set; }
-        public virtual Faktura_produktu Faktura_produktu { get; set; }
+        public virtual Faktura_produktu Faktura_produktuSet { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Zdjęcia> Zdjęcia { get; set; }
+        public virtual ICollection<Zdjęcia> ZdjęciaSet { get; set; }
     }
 }
