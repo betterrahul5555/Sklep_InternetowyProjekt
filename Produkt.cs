@@ -17,24 +17,22 @@ namespace Sklep_Internetowy
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Produkt()
         {
-            this.Kategoria_produktu = new HashSet<Kategoria_produktu>();
+            this.Faktura_produktuSet = new HashSet<Faktura_produktu>();
             this.ZdjęciaSet = new HashSet<Zdjęcia>();
         }
     
         public int Id_produktu { get; set; }
-        public Nullable<int> Id_kategorii_produktu { get; set; }
+        public int Id_kategorii_produktu { get; set; }
         public string nazwa { get; set; }
         public string opis { get; set; }
         public Nullable<int> Id_zdjecia { get; set; }
         public Nullable<double> cena_netto { get; set; }
         public Nullable<double> procent_vat { get; set; }
-        public Nullable<int> Faktura_produktuId_faktura_produktu { get; set; }
-        public Nullable<double> cena_brutto { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Kategoria_produktu> Kategoria_produktu { get; set; }
-        public virtual Faktura_produktu Faktura_produktuSet { get; set; }
+        public virtual ICollection<Faktura_produktu> Faktura_produktuSet { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Zdjęcia> ZdjęciaSet { get; set; }
+        public virtual Kategoria_produktu Kategoria_produktu { get; set; }
     }
 }

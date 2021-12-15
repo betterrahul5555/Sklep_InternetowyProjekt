@@ -14,12 +14,19 @@ namespace Sklep_Internetowy
     
     public partial class Kategoria_produktu
     {
-        public int Id_kategoria_produktu { get; set; }
-        public Nullable<int> Id_producenta { get; set; }
-        public Nullable<int> Id_kategorii { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Kategoria_produktu()
+        {
+            this.Produkt = new HashSet<Produkt>();
+        }
     
-        public virtual Produkt Produkt { get; set; }
+        public int Id_kategoria_produktu { get; set; }
+        public int Id_producenta { get; set; }
+        public int Id_kategorii { get; set; }
+    
         public virtual Producent Producent { get; set; }
         public virtual Kategoria Kategoria { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Produkt> Produkt { get; set; }
     }
 }

@@ -17,7 +17,6 @@ namespace Sklep_Internetowy
         public int Id_zdjecia { get; set; }
         public string nazwa { get; set; }
         public Nullable<System.DateTime> data { get; set; }
-        public Nullable<int> Id_produktu { get; set; }
         public Nullable<int> ProduktId_produktu { get; set; }
     
         public virtual Produkt ProduktSet { get; set; }

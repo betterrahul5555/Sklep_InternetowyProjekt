@@ -29,5 +29,6 @@ namespace Sklep_Internetowy
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Faktura_produktu> Faktura_produktuSet { get; set; }
+        public virtual Klient Klient { get; set; }
     }
 }

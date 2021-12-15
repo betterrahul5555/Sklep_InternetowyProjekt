@@ -4,226 +4,300 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="AdresSet">
-          <Key>
-            <PropertyRef Name="Id_adresu" />
-          </Key>
-          <Property Name="Id_adresu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="miasto" Type="nvarchar(max)" />
-          <Property Name="powiat" Type="nvarchar(max)" />
-          <Property Name="ulica" Type="nvarchar(max)" />
-          <Property Name="numer_domu" Type="int" />
-          <Property Name="numer_lokalu" Type="int" />
-          <Property Name="Klient_Id_klienta" Type="int" />
-        </EntityType>
-        <EntityType Name="Dane_kontaktoweSet">
-          <Key>
-            <PropertyRef Name="Id_kontaktu" />
-          </Key>
-          <Property Name="Id_kontaktu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="numer" Type="int" />
-          <Property Name="emial" Type="nvarchar(max)" />
-        </EntityType>
-        <EntityType Name="Faktura_produktuSet">
-          <Key>
-            <PropertyRef Name="Id_faktura_produktu" />
-          </Key>
-          <Property Name="Id_faktura_produktu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Id_produktu" Type="int" Nullable="false" />
-          <Property Name="numer_faktury" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="FakturaSet">
-          <Key>
-            <PropertyRef Name="numer_faktury" />
-          </Key>
-          <Property Name="numer_faktury" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Id_klienta" Type="int" Nullable="false" />
-          <Property Name="data_sprzedaży" Type="datetime" />
-          <Property Name="wartość_netto" Type="float" />
-          <Property Name="czy_dostawa" Type="bit" />
-          <Property Name="procent_podatku" Type="float" />
-        </EntityType>
-        <EntityType Name="Kategoria_produktuSet">
-          <Key>
-            <PropertyRef Name="Id_kategoria_produktu" />
-          </Key>
-          <Property Name="Id_kategoria_produktu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Id_producenta" Type="int" />
-          <Property Name="Id_kategorii" Type="int" />
-          <Property Name="Produkt_Id_produktu" Type="int" />
-          <Property Name="Producent_Id_producenta" Type="int" />
-          <Property Name="Kategoria_Id_kategorii" Type="int" />
-        </EntityType>
-        <EntityType Name="KategoriaSet">
-          <Key>
-            <PropertyRef Name="Id_kategorii" />
-          </Key>
-          <Property Name="Id_kategorii" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="nazwa" Type="nvarchar(max)" Nullable="false" />
-        </EntityType>
-        <EntityType Name="KlientSet">
-          <Key>
-            <PropertyRef Name="Id_klienta" />
-          </Key>
-          <Property Name="Id_klienta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Id_kontaktu" Type="int" />
-          <Property Name="Id_adresu" Type="int" />
-          <Property Name="imie" Type="nvarchar(max)" />
-          <Property Name="nazwisko" Type="nvarchar(max)" />
-        </EntityType>
-        <EntityType Name="PracownikSet">
-          <Key>
-            <PropertyRef Name="Id_pracownika" />
-          </Key>
-          <Property Name="Id_pracownika" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="imie" Type="nvarchar(max)" />
-          <Property Name="nazwisko" Type="nvarchar(max)" />
-          <Property Name="data_zatrunienia" Type="datetime" />
-          <Property Name="Id_adresu" Type="int" />
-          <Property Name="Id_kontaktu" Type="int" />
-        </EntityType>
-        <EntityType Name="ProducentSet">
-          <Key>
-            <PropertyRef Name="Id_producenta" />
-          </Key>
-          <Property Name="Id_producenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="nazwa" Type="nvarchar(max)" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ProduktSet">
-          <Key>
-            <PropertyRef Name="Id_produktu" />
-          </Key>
-          <Property Name="Id_produktu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Id_kategorii_produktu" Type="int" />
-          <Property Name="nazwa" Type="nvarchar(max)" />
-          <Property Name="opis" Type="nvarchar(max)" />
-          <Property Name="Id_zdjecia" Type="int" />
-          <Property Name="cena_brutto" Type="float" />
-          <Property Name="cena_netto" Type="float" />
-          <Property Name="procent_vat" Type="float" />
-          <Property Name="Faktura_produktuId_faktura_produktu" Type="int" />
-        </EntityType>
-        <EntityType Name="ZdjęciaSet">
-          <Key>
-            <PropertyRef Name="Id_zdjecia" />
-          </Key>
-          <Property Name="Id_zdjecia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="nazwa" Type="nvarchar(max)" />
-          <Property Name="data" Type="datetime" />
-          <Property Name="Id_produktu" Type="int" />
-          <Property Name="ProduktId_produktu" Type="int" />
-        </EntityType>
-        <Association Name="FK_Faktura_produktuProdukt">
-          <End Role="Faktura_produktuSet" Type="Self.Faktura_produktuSet" Multiplicity="0..1" />
-          <End Role="ProduktSet" Type="Self.ProduktSet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Faktura_produktuSet">
-              <PropertyRef Name="Id_faktura_produktu" />
-            </Principal>
-            <Dependent Role="ProduktSet">
-              <PropertyRef Name="Faktura_produktuId_faktura_produktu" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FakturaFaktura_produktu">
-          <End Role="FakturaSet" Type="Self.FakturaSet" Multiplicity="1" />
-          <End Role="Faktura_produktuSet" Type="Self.Faktura_produktuSet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FakturaSet">
-              <PropertyRef Name="numer_faktury" />
-            </Principal>
-            <Dependent Role="Faktura_produktuSet">
-              <PropertyRef Name="numer_faktury" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Kategoria_produktuProducent">
-          <End Role="ProducentSet" Type="Self.ProducentSet" Multiplicity="0..1" />
-          <End Role="Kategoria_produktuSet" Type="Self.Kategoria_produktuSet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProducentSet">
-              <PropertyRef Name="Id_producenta" />
-            </Principal>
-            <Dependent Role="Kategoria_produktuSet">
-              <PropertyRef Name="Producent_Id_producenta" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_KategoriaKategoria_produktu">
-          <End Role="KategoriaSet" Type="Self.KategoriaSet" Multiplicity="0..1" />
-          <End Role="Kategoria_produktuSet" Type="Self.Kategoria_produktuSet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="KategoriaSet">
-              <PropertyRef Name="Id_kategorii" />
-            </Principal>
-            <Dependent Role="Kategoria_produktuSet">
-              <PropertyRef Name="Kategoria_Id_kategorii" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProduktKategoria_produktu">
-          <End Role="ProduktSet" Type="Self.ProduktSet" Multiplicity="0..1" />
-          <End Role="Kategoria_produktuSet" Type="Self.Kategoria_produktuSet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProduktSet">
-              <PropertyRef Name="Id_produktu" />
-            </Principal>
-            <Dependent Role="Kategoria_produktuSet">
-              <PropertyRef Name="Produkt_Id_produktu" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProduktZdjęcia">
-          <End Role="ProduktSet" Type="Self.ProduktSet" Multiplicity="0..1" />
-          <End Role="ZdjęciaSet" Type="Self.ZdjęciaSet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProduktSet">
-              <PropertyRef Name="Id_produktu" />
-            </Principal>
-            <Dependent Role="ZdjęciaSet">
-              <PropertyRef Name="ProduktId_produktu" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="Model1StoreContainer">
-          <EntitySet Name="AdresSet" EntityType="Self.AdresSet" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Dane_kontaktoweSet" EntityType="Self.Dane_kontaktoweSet" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Faktura_produktuSet" EntityType="Self.Faktura_produktuSet" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="FakturaSet" EntityType="Self.FakturaSet" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Kategoria_produktuSet" EntityType="Self.Kategoria_produktuSet" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="KategoriaSet" EntityType="Self.KategoriaSet" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="KlientSet" EntityType="Self.KlientSet" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PracownikSet" EntityType="Self.PracownikSet" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ProducentSet" EntityType="Self.ProducentSet" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ProduktSet" EntityType="Self.ProduktSet" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ZdjęciaSet" EntityType="Self.ZdjęciaSet" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Faktura_produktuProdukt" Association="Self.FK_Faktura_produktuProdukt">
-            <End Role="Faktura_produktuSet" EntitySet="Faktura_produktuSet" />
-            <End Role="ProduktSet" EntitySet="ProduktSet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FakturaFaktura_produktu" Association="Self.FK_FakturaFaktura_produktu">
-            <End Role="FakturaSet" EntitySet="FakturaSet" />
-            <End Role="Faktura_produktuSet" EntitySet="Faktura_produktuSet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Kategoria_produktuProducent" Association="Self.FK_Kategoria_produktuProducent">
-            <End Role="ProducentSet" EntitySet="ProducentSet" />
-            <End Role="Kategoria_produktuSet" EntitySet="Kategoria_produktuSet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_KategoriaKategoria_produktu" Association="Self.FK_KategoriaKategoria_produktu">
-            <End Role="KategoriaSet" EntitySet="KategoriaSet" />
-            <End Role="Kategoria_produktuSet" EntitySet="Kategoria_produktuSet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProduktKategoria_produktu" Association="Self.FK_ProduktKategoria_produktu">
-            <End Role="ProduktSet" EntitySet="ProduktSet" />
-            <End Role="Kategoria_produktuSet" EntitySet="Kategoria_produktuSet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProduktZdjęcia" Association="Self.FK_ProduktZdjęcia">
-            <End Role="ProduktSet" EntitySet="ProduktSet" />
-            <End Role="ZdjęciaSet" EntitySet="ZdjęciaSet" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema></edmx:StorageModels>
+    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="AdresSet" EntityType="Model1.Store.AdresSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="KlientSet" EntityType="Model1.Store.KlientSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PracownikSet" EntityType="Model1.Store.PracownikSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Dane_kontaktoweSet" EntityType="Model1.Store.Dane_kontaktoweSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProduktSet" EntityType="Model1.Store.ProduktSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FakturaSet" EntityType="Model1.Store.FakturaSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Faktura_produktuSet" EntityType="Model1.Store.Faktura_produktuSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ZdjęciaSet" EntityType="Model1.Store.ZdjęciaSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Kategoria_produktuSet" EntityType="Model1.Store.Kategoria_produktuSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="KategoriaSet" EntityType="Model1.Store.KategoriaSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProducentSet" EntityType="Model1.Store.ProducentSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="Kategoria_produktuProducent" Association="Model1.Store.Kategoria_produktuProducent">
+      <End Role="Kategoria_produktu" EntitySet="Kategoria_produktuSet" />
+      <End Role="Producent" EntitySet="ProducentSet" />
+    </AssociationSet>
+    <AssociationSet Name="KategoriaKategoria_produktu" Association="Model1.Store.KategoriaKategoria_produktu">
+      <End Role="Kategoria" EntitySet="KategoriaSet" />
+      <End Role="Kategoria_produktu" EntitySet="Kategoria_produktuSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FakturaFaktura_produktu" Association="Model1.Store.FK_FakturaFaktura_produktu">
+      <End Role="Faktura" EntitySet="FakturaSet" />
+      <End Role="Faktura_produktu" EntitySet="Faktura_produktuSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Faktura_produktuProdukt" Association="Model1.Store.FK_Faktura_produktuProdukt">
+      <End Role="Faktura_produktu" EntitySet="Faktura_produktuSet" />
+      <End Role="Produkt" EntitySet="ProduktSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProduktZdjęcia" Association="Model1.Store.FK_ProduktZdjęcia">
+      <End Role="Produkt" EntitySet="ProduktSet" />
+      <End Role="Zdjęcia" EntitySet="ZdjęciaSet" />
+    </AssociationSet>
+    <AssociationSet Name="AdresPracownik" Association="Model1.Store.AdresPracownik">
+      <End Role="Adres" EntitySet="AdresSet" />
+      <End Role="Pracownik" EntitySet="PracownikSet" />
+    </AssociationSet>
+    <AssociationSet Name="KlientAdres" Association="Model1.Store.KlientAdres">
+      <End Role="Klient" EntitySet="KlientSet" />
+      <End Role="Adres" EntitySet="AdresSet" />
+    </AssociationSet>
+    <AssociationSet Name="Dane_kontaktowePracownik" Association="Model1.Store.Dane_kontaktowePracownik">
+      <End Role="Dane_kontaktowe" EntitySet="Dane_kontaktoweSet" />
+      <End Role="Pracownik" EntitySet="PracownikSet" />
+    </AssociationSet>
+    <AssociationSet Name="Dane_kontaktoweKlient" Association="Model1.Store.Dane_kontaktoweKlient">
+      <End Role="Dane_kontaktowe" EntitySet="Dane_kontaktoweSet" />
+      <End Role="Klient" EntitySet="KlientSet" />
+    </AssociationSet>
+    <AssociationSet Name="KlientFaktura" Association="Model1.Store.KlientFaktura">
+      <End Role="Klient" EntitySet="KlientSet" />
+      <End Role="Faktura" EntitySet="FakturaSet" />
+    </AssociationSet>
+    <AssociationSet Name="Kategoria_produktuProdukt" Association="Model1.Store.Kategoria_produktuProdukt">
+      <End Role="Kategoria_produktu" EntitySet="Kategoria_produktuSet" />
+      <End Role="Produkt" EntitySet="ProduktSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AdresSet">
+    <Key>
+      <PropertyRef Name="Id_adresu" />
+    </Key>
+    <Property Name="Id_adresu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="miasto" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="powiat" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ulica" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="numer_domu" Type="int" Nullable="true" />
+    <Property Name="numer_lokalu" Type="int" Nullable="true" />
+    <Property Name="PracownikId_pracownika1" Type="int" Nullable="true" />
+    <Property Name="KlientId_klienta" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="KlientSet">
+    <Key>
+      <PropertyRef Name="Id_klienta" />
+    </Key>
+    <Property Name="Id_klienta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="imie" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="nazwisko" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Dane_kontaktowe_Id_kontaktu" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="PracownikSet">
+    <Key>
+      <PropertyRef Name="Id_pracownika" />
+    </Key>
+    <Property Name="Id_pracownika" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="imie" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="nazwisko" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="data_zatrunienia" Type="datetime" Nullable="true" />
+    <Property Name="Dane_kontaktowe_Id_kontaktu" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Dane_kontaktoweSet">
+    <Key>
+      <PropertyRef Name="Id_kontaktu" />
+    </Key>
+    <Property Name="Id_kontaktu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="numer" Type="int" Nullable="true" />
+    <Property Name="emial" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="ProduktSet">
+    <Key>
+      <PropertyRef Name="Id_produktu" />
+    </Key>
+    <Property Name="Id_produktu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_kategorii_produktu" Type="int" Nullable="false" />
+    <Property Name="nazwa" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="opis" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Id_zdjecia" Type="int" Nullable="true" />
+    <Property Name="cena_netto" Type="float" Nullable="true" />
+    <Property Name="procent_vat" Type="float" Nullable="true" />
+  </EntityType>
+  <EntityType Name="FakturaSet">
+    <Key>
+      <PropertyRef Name="numer_faktury" />
+    </Key>
+    <Property Name="numer_faktury" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_klienta" Type="int" Nullable="false" />
+    <Property Name="data_sprzedaży" Type="datetime" Nullable="true" />
+    <Property Name="wartość_netto" Type="float" Nullable="true" />
+    <Property Name="czy_dostawa" Type="bit" Nullable="true" />
+    <Property Name="procent_podatku" Type="float" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Faktura_produktuSet">
+    <Key>
+      <PropertyRef Name="Id_faktura_produktu" />
+    </Key>
+    <Property Name="Id_faktura_produktu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_produktu" Type="int" Nullable="false" />
+    <Property Name="numer_faktury" Type="int" Nullable="false" />
+    <Property Name="ilość" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="ZdjęciaSet">
+    <Key>
+      <PropertyRef Name="Id_zdjecia" />
+    </Key>
+    <Property Name="Id_zdjecia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nazwa" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="data" Type="datetime" Nullable="true" />
+    <Property Name="ProduktId_produktu" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Kategoria_produktuSet">
+    <Key>
+      <PropertyRef Name="Id_kategoria_produktu" />
+    </Key>
+    <Property Name="Id_kategoria_produktu" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id_producenta" Type="int" Nullable="false" />
+    <Property Name="Id_kategorii" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="KategoriaSet">
+    <Key>
+      <PropertyRef Name="Id_kategorii" />
+    </Key>
+    <Property Name="Id_kategorii" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nazwa" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProducentSet">
+    <Key>
+      <PropertyRef Name="Id_producenta" />
+    </Key>
+    <Property Name="Id_producenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nazwa" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="Kategoria_produktuProducent">
+    <End Role="Kategoria_produktu" Type="Model1.Store.Kategoria_produktuSet" Multiplicity="*" />
+    <End Role="Producent" Type="Model1.Store.ProducentSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Producent">
+        <PropertyRef Name="Id_producenta" />
+      </Principal>
+      <Dependent Role="Kategoria_produktu">
+        <PropertyRef Name="Id_producenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="KategoriaKategoria_produktu">
+    <End Role="Kategoria" Type="Model1.Store.KategoriaSet" Multiplicity="1" />
+    <End Role="Kategoria_produktu" Type="Model1.Store.Kategoria_produktuSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kategoria">
+        <PropertyRef Name="Id_kategorii" />
+      </Principal>
+      <Dependent Role="Kategoria_produktu">
+        <PropertyRef Name="Id_kategorii" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FakturaFaktura_produktu">
+    <End Role="Faktura" Type="Model1.Store.FakturaSet" Multiplicity="1" />
+    <End Role="Faktura_produktu" Type="Model1.Store.Faktura_produktuSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Faktura">
+        <PropertyRef Name="numer_faktury" />
+      </Principal>
+      <Dependent Role="Faktura_produktu">
+        <PropertyRef Name="numer_faktury" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Faktura_produktuProdukt">
+    <End Role="Faktura_produktu" Type="Model1.Store.Faktura_produktuSet" Multiplicity="*" />
+    <End Role="Produkt" Type="Model1.Store.ProduktSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Produkt">
+        <PropertyRef Name="Id_produktu" />
+      </Principal>
+      <Dependent Role="Faktura_produktu">
+        <PropertyRef Name="Id_produktu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProduktZdjęcia">
+    <End Role="Produkt" Type="Model1.Store.ProduktSet" Multiplicity="0..1" />
+    <End Role="Zdjęcia" Type="Model1.Store.ZdjęciaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produkt">
+        <PropertyRef Name="Id_produktu" />
+      </Principal>
+      <Dependent Role="Zdjęcia">
+        <PropertyRef Name="ProduktId_produktu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AdresPracownik">
+    <End Role="Adres" Type="Model1.Store.AdresSet" Multiplicity="*" />
+    <End Role="Pracownik" Type="Model1.Store.PracownikSet" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Pracownik">
+        <PropertyRef Name="Id_pracownika" />
+      </Principal>
+      <Dependent Role="Adres">
+        <PropertyRef Name="PracownikId_pracownika1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="KlientAdres">
+    <End Role="Klient" Type="Model1.Store.KlientSet" Multiplicity="0..1" />
+    <End Role="Adres" Type="Model1.Store.AdresSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Klient">
+        <PropertyRef Name="Id_klienta" />
+      </Principal>
+      <Dependent Role="Adres">
+        <PropertyRef Name="KlientId_klienta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Dane_kontaktowePracownik">
+    <End Role="Dane_kontaktowe" Type="Model1.Store.Dane_kontaktoweSet" Multiplicity="0..1" />
+    <End Role="Pracownik" Type="Model1.Store.PracownikSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dane_kontaktowe">
+        <PropertyRef Name="Id_kontaktu" />
+      </Principal>
+      <Dependent Role="Pracownik">
+        <PropertyRef Name="Dane_kontaktowe_Id_kontaktu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Dane_kontaktoweKlient">
+    <End Role="Dane_kontaktowe" Type="Model1.Store.Dane_kontaktoweSet" Multiplicity="0..1" />
+    <End Role="Klient" Type="Model1.Store.KlientSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dane_kontaktowe">
+        <PropertyRef Name="Id_kontaktu" />
+      </Principal>
+      <Dependent Role="Klient">
+        <PropertyRef Name="Dane_kontaktowe_Id_kontaktu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="KlientFaktura">
+    <End Role="Klient" Type="Model1.Store.KlientSet" Multiplicity="1" />
+    <End Role="Faktura" Type="Model1.Store.FakturaSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Klient">
+        <PropertyRef Name="Id_klienta" />
+      </Principal>
+      <Dependent Role="Faktura">
+        <PropertyRef Name="Id_klienta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Kategoria_produktuProdukt">
+    <End Role="Kategoria_produktu" Type="Model1.Store.Kategoria_produktuSet" Multiplicity="1" />
+    <End Role="Produkt" Type="Model1.Store.ProduktSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kategoria_produktu">
+        <PropertyRef Name="Id_kategoria_produktu" />
+      </Principal>
+      <Dependent Role="Produkt">
+        <PropertyRef Name="Id_kategorii_produktu" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -238,10 +312,6 @@
           <EntitySet Name="ZdjęciaSet" EntityType="Model1.Zdjęcia" />
           <EntitySet Name="Kategoria_produktuSet" EntityType="Model1.Kategoria_produktu" />
           <EntitySet Name="KategoriaSet" EntityType="Model1.Kategoria" />
-          <AssociationSet Name="ProduktKategoria_produktu" Association="Model1.ProduktKategoria_produktu">
-            <End Role="Produkt" EntitySet="ProduktSet" />
-            <End Role="Kategoria_produktu" EntitySet="Kategoria_produktuSet" />
-          </AssociationSet>
           <EntitySet Name="ProducentSet" EntityType="Model1.Producent" />
           <AssociationSet Name="Kategoria_produktuProducent" Association="Model1.Kategoria_produktuProducent">
             <End Role="Kategoria_produktu" EntitySet="Kategoria_produktuSet" />
@@ -263,6 +333,30 @@
             <End Role="Produkt" EntitySet="ProduktSet" />
             <End Role="Zdjęcia" EntitySet="ZdjęciaSet" />
           </AssociationSet>
+          <AssociationSet Name="AdresPracownik" Association="Model1.AdresPracownik">
+            <End Role="Adres" EntitySet="AdresSet" />
+            <End Role="Pracownik" EntitySet="PracownikSet" />
+          </AssociationSet>
+          <AssociationSet Name="KlientAdres" Association="Model1.KlientAdres">
+            <End Role="Klient" EntitySet="KlientSet" />
+            <End Role="Adres" EntitySet="AdresSet" />
+          </AssociationSet>
+          <AssociationSet Name="Dane_kontaktowePracownik" Association="Model1.Dane_kontaktowePracownik">
+            <End Role="Dane_kontaktowe" EntitySet="Dane_kontaktoweSet" />
+            <End Role="Pracownik" EntitySet="PracownikSet" />
+          </AssociationSet>
+          <AssociationSet Name="Dane_kontaktoweKlient" Association="Model1.Dane_kontaktoweKlient">
+            <End Role="Dane_kontaktowe" EntitySet="Dane_kontaktoweSet" />
+            <End Role="Klient" EntitySet="KlientSet" />
+          </AssociationSet>
+          <AssociationSet Name="KlientFaktura" Association="Model1.KlientFaktura">
+            <End Role="Klient" EntitySet="KlientSet" />
+            <End Role="Faktura" EntitySet="FakturaSet" />
+          </AssociationSet>
+          <AssociationSet Name="Kategoria_produktuProdukt" Association="Model1.Kategoria_produktuProdukt">
+            <End Role="Kategoria_produktu" EntitySet="Kategoria_produktuSet" />
+            <End Role="Produkt" EntitySet="ProduktSet" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Adres">
           <Key>
@@ -274,17 +368,21 @@
           <Property Name="ulica" Type="String" Unicode="true" FixedLength="false" MaxLength="Max" />
           <Property Name="numer_domu" Type="Int32" />
           <Property Name="numer_lokalu" Type="Int32" Nullable="true" />
-          <Property Name="Klient_Id_klienta" Type="Int32" />
+          <NavigationProperty Name="Pracownik" Relationship="Model1.AdresPracownik" FromRole="Adres" ToRole="Pracownik" />
+          <Property Name="PracownikId_pracownika1" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Klient" Relationship="Model1.KlientAdres" FromRole="Adres" ToRole="Klient" />
+          <Property Name="KlientId_klienta" Type="Int32" Nullable="true" />
         </EntityType>
         <EntityType Name="Klient">
           <Key>
             <PropertyRef Name="Id_klienta" />
           </Key>
           <Property Name="Id_klienta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Id_kontaktu" Type="Int32" Nullable="true" />
-          <Property Name="Id_adresu" Type="Int32" Nullable="true" />
           <Property Name="imie" Type="String" Unicode="true" FixedLength="false" MaxLength="Max" Nullable="true" />
           <Property Name="nazwisko" Type="String" Unicode="true" FixedLength="false" MaxLength="Max" Nullable="true" />
+          <NavigationProperty Name="Adres" Relationship="Model1.KlientAdres" FromRole="Klient" ToRole="Adres" />
+          <NavigationProperty Name="Dane_kontaktowe" Relationship="Model1.Dane_kontaktoweKlient" FromRole="Klient" ToRole="Dane_kontaktowe" />
+          <NavigationProperty Name="Faktura" Relationship="Model1.KlientFaktura" FromRole="Klient" ToRole="Faktura" />
         </EntityType>
         <EntityType Name="Pracownik">
           <Key>
@@ -294,8 +392,8 @@
           <Property Name="imie" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="nazwisko" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="data_zatrunienia" Type="DateTime" Precision="3" />
-          <Property Name="Id_adresu" Type="Int32" />
-          <Property Name="Id_kontaktu" Type="Int32" cg:GetterAccess="Private" />
+          <NavigationProperty Name="Adres" Relationship="Model1.AdresPracownik" FromRole="Pracownik" ToRole="Adres" />
+          <NavigationProperty Name="Dane_kontaktowe" Relationship="Model1.Dane_kontaktowePracownik" FromRole="Pracownik" ToRole="Dane_kontaktowe" />
         </EntityType>
         <EntityType Name="Dane_kontaktowe">
           <Key>
@@ -304,23 +402,23 @@
           <Property Name="Id_kontaktu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="numer" Type="Int32" />
           <Property Name="emial" Type="String" Unicode="true" FixedLength="false" MaxLength="Max" />
+          <NavigationProperty Name="Pracownik" Relationship="Model1.Dane_kontaktowePracownik" FromRole="Dane_kontaktowe" ToRole="Pracownik" />
+          <NavigationProperty Name="Klient" Relationship="Model1.Dane_kontaktoweKlient" FromRole="Dane_kontaktowe" ToRole="Klient" />
         </EntityType>
         <EntityType Name="Produkt">
           <Key>
             <PropertyRef Name="Id_produktu" />
           </Key>
           <Property Name="Id_produktu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Id_kategorii_produktu" Type="Int32" Nullable="true" />
+          <Property Name="Id_kategorii_produktu" Type="Int32" Nullable="false" />
           <Property Name="nazwa" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="opis" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="Id_zdjecia" Type="Int32" Nullable="true" />
           <Property Name="cena_netto" Type="Double" Nullable="true" />
           <Property Name="procent_vat" Type="Double" Nullable="true" />
-          <NavigationProperty Name="Kategoria_produktu" Relationship="Model1.ProduktKategoria_produktu" FromRole="Produkt" ToRole="Kategoria_produktu" />
-          <Property Name="Faktura_produktuId_faktura_produktu" Type="Int32" Nullable="true" />
-          <Property Name="cena_brutto" Type="Double" Nullable="true" />
           <NavigationProperty Name="Faktura_produktuSet" Relationship="Model1.FK_Faktura_produktuProdukt" FromRole="Produkt" ToRole="Faktura_produktu" />
           <NavigationProperty Name="ZdjęciaSet" Relationship="Model1.FK_ProduktZdjęcia" FromRole="Produkt" ToRole="Zdjęcia" />
+          <NavigationProperty Name="Kategoria_produktu" Relationship="Model1.Kategoria_produktuProdukt" FromRole="Produkt" ToRole="Kategoria_produktu" />
         </EntityType>
         <EntityType Name="Faktura">
           <Key>
@@ -333,6 +431,7 @@
           <Property Name="czy_dostawa" Type="Boolean" Nullable="true" />
           <Property Name="procent_podatku" Type="Double" />
           <NavigationProperty Name="Faktura_produktuSet" Relationship="Model1.FK_FakturaFaktura_produktu" FromRole="Faktura" ToRole="Faktura_produktu" />
+          <NavigationProperty Name="Klient" Relationship="Model1.KlientFaktura" FromRole="Faktura" ToRole="Klient" />
         </EntityType>
         <EntityType Name="Faktura_produktu">
           <Key>
@@ -343,6 +442,7 @@
           <Property Name="numer_faktury" Type="Int32" Nullable="false" />
           <NavigationProperty Name="FakturaSet" Relationship="Model1.FK_FakturaFaktura_produktu" FromRole="Faktura_produktu" ToRole="Faktura" />
           <NavigationProperty Name="ProduktSet" Relationship="Model1.FK_Faktura_produktuProdukt" FromRole="Faktura_produktu" ToRole="Produkt" />
+          <Property Name="ilość" Type="Int32" Nullable="true" />
         </EntityType>
         <EntityType Name="Zdjęcia">
           <Key>
@@ -351,7 +451,6 @@
           <Property Name="Id_zdjecia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nazwa" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Name="data" Type="DateTime" Precision="3" />
-          <Property Name="Id_produktu" Type="Int32" />
           <Property Name="ProduktId_produktu" Type="Int32" />
           <NavigationProperty Name="ProduktSet" Relationship="Model1.FK_ProduktZdjęcia" FromRole="Zdjęcia" ToRole="Produkt" />
         </EntityType>
@@ -360,11 +459,11 @@
             <PropertyRef Name="Id_kategoria_produktu" />
           </Key>
           <Property Name="Id_kategoria_produktu" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Id_producenta" Type="Int32" Nullable="true" />
-          <Property Name="Id_kategorii" Type="Int32" Nullable="true" />
-          <NavigationProperty Name="Produkt" Relationship="Model1.ProduktKategoria_produktu" FromRole="Kategoria_produktu" ToRole="Produkt" />
+          <Property Name="Id_producenta" Type="Int32" Nullable="false" />
+          <Property Name="Id_kategorii" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Producent" Relationship="Model1.Kategoria_produktuProducent" FromRole="Kategoria_produktu" ToRole="Producent" />
           <NavigationProperty Name="Kategoria" Relationship="Model1.KategoriaKategoria_produktu" FromRole="Kategoria_produktu" ToRole="Kategoria" />
+          <NavigationProperty Name="Produkt" Relationship="Model1.Kategoria_produktuProdukt" FromRole="Kategoria_produktu" ToRole="Produkt" />
         </EntityType>
         <EntityType Name="Kategoria">
           <Key>
@@ -374,10 +473,6 @@
           <Property Name="nazwa" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Kategoria_produktu" Relationship="Model1.KategoriaKategoria_produktu" FromRole="Kategoria" ToRole="Kategoria_produktu" />
         </EntityType>
-        <Association Name="ProduktKategoria_produktu">
-          <End Type="Model1.Produkt" Role="Produkt" Multiplicity="1" />
-          <End Type="Model1.Kategoria_produktu" Role="Kategoria_produktu" Multiplicity="*" />
-        </Association>
         <EntityType Name="Producent">
           <Key>
             <PropertyRef Name="Id_producenta" />
@@ -389,10 +484,26 @@
         <Association Name="Kategoria_produktuProducent">
           <End Type="Model1.Kategoria_produktu" Role="Kategoria_produktu" Multiplicity="*" />
           <End Type="Model1.Producent" Role="Producent" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Producent">
+              <PropertyRef Name="Id_producenta" />
+            </Principal>
+            <Dependent Role="Kategoria_produktu">
+              <PropertyRef Name="Id_producenta" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="KategoriaKategoria_produktu">
           <End Type="Model1.Kategoria" Role="Kategoria" Multiplicity="1" />
           <End Type="Model1.Kategoria_produktu" Role="Kategoria_produktu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoria">
+              <PropertyRef Name="Id_kategorii" />
+            </Principal>
+            <Dependent Role="Kategoria_produktu">
+              <PropertyRef Name="Id_kategorii" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <Association Name="FK_FakturaFaktura_produktu">
           <End Type="Model1.Faktura" Role="Faktura" Multiplicity="1" />
@@ -407,14 +518,14 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Faktura_produktuProdukt">
-          <End Type="Model1.Faktura_produktu" Role="Faktura_produktu" Multiplicity="0..1" />
-          <End Type="Model1.Produkt" Role="Produkt" Multiplicity="*" />
+          <End Type="Model1.Faktura_produktu" Role="Faktura_produktu" Multiplicity="*" />
+          <End Type="Model1.Produkt" Role="Produkt" Multiplicity="1" />
           <ReferentialConstraint>
-            <Principal Role="Faktura_produktu">
-              <PropertyRef Name="Id_faktura_produktu" />
+            <Principal Role="Produkt">
+              <PropertyRef Name="Id_produktu" />
             </Principal>
-            <Dependent Role="Produkt">
-              <PropertyRef Name="Faktura_produktuId_faktura_produktu" />
+            <Dependent Role="Faktura_produktu">
+              <PropertyRef Name="Id_produktu" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -427,6 +538,62 @@
             </Principal>
             <Dependent Role="Zdjęcia">
               <PropertyRef Name="ProduktId_produktu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AdresPracownik">
+          <End Type="Model1.Adres" Role="Adres" Multiplicity="*" />
+          <End Type="Model1.Pracownik" Role="Pracownik" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Pracownik">
+              <PropertyRef Name="Id_pracownika" />
+            </Principal>
+            <Dependent Role="Adres">
+              <PropertyRef Name="PracownikId_pracownika1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="KlientAdres">
+          <End Type="Model1.Klient" Role="Klient" Multiplicity="0..1" />
+          <End Type="Model1.Adres" Role="Adres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klient">
+              <PropertyRef Name="Id_klienta" />
+            </Principal>
+            <Dependent Role="Adres">
+              <PropertyRef Name="KlientId_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Dane_kontaktowePracownik">
+          <End Type="Model1.Dane_kontaktowe" Role="Dane_kontaktowe" Multiplicity="0..1" />
+          <End Type="Model1.Pracownik" Role="Pracownik" Multiplicity="0..1" />
+        </Association>
+        <Association Name="Dane_kontaktoweKlient">
+          <End Type="Model1.Dane_kontaktowe" Role="Dane_kontaktowe" Multiplicity="0..1" />
+          <End Type="Model1.Klient" Role="Klient" Multiplicity="0..1" />
+        </Association>
+        <Association Name="KlientFaktura">
+          <End Type="Model1.Klient" Role="Klient" Multiplicity="1" />
+          <End Type="Model1.Faktura" Role="Faktura" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Klient">
+              <PropertyRef Name="Id_klienta" />
+            </Principal>
+            <Dependent Role="Faktura">
+              <PropertyRef Name="Id_klienta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Kategoria_produktuProdukt">
+          <End Type="Model1.Kategoria_produktu" Role="Kategoria_produktu" Multiplicity="1" />
+          <End Type="Model1.Produkt" Role="Produkt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoria_produktu">
+              <PropertyRef Name="Id_kategoria_produktu" />
+            </Principal>
+            <Dependent Role="Produkt">
+              <PropertyRef Name="Id_kategorii_produktu" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -445,7 +612,8 @@
           <ScalarProperty Name="ulica" ColumnName="ulica" />
           <ScalarProperty Name="numer_domu" ColumnName="numer_domu" />
           <ScalarProperty Name="numer_lokalu" ColumnName="numer_lokalu" />
-          <ScalarProperty Name="Klient_Id_klienta" ColumnName="Klient_Id_klienta" />
+          <ScalarProperty Name="PracownikId_pracownika1" ColumnName="PracownikId_pracownika1" />
+          <ScalarProperty Name="KlientId_klienta" ColumnName="KlientId_klienta" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -453,8 +621,6 @@
       <EntityTypeMapping TypeName="IsTypeOf(Model1.Klient)">
         <MappingFragment StoreEntitySet="KlientSet">
           <ScalarProperty Name="Id_klienta" ColumnName="Id_klienta" />
-          <ScalarProperty Name="Id_kontaktu" ColumnName="Id_kontaktu" />
-          <ScalarProperty Name="Id_adresu" ColumnName="Id_adresu" />
           <ScalarProperty Name="imie" ColumnName="imie" />
           <ScalarProperty Name="nazwisko" ColumnName="nazwisko" />
         </MappingFragment>
@@ -467,8 +633,6 @@
           <ScalarProperty Name="imie" ColumnName="imie" />
           <ScalarProperty Name="nazwisko" ColumnName="nazwisko" />
           <ScalarProperty Name="data_zatrunienia" ColumnName="data_zatrunienia" />
-          <ScalarProperty Name="Id_adresu" ColumnName="Id_adresu" />
-          <ScalarProperty Name="Id_kontaktu" ColumnName="Id_kontaktu" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -491,8 +655,6 @@
           <ScalarProperty Name="Id_zdjecia" ColumnName="Id_zdjecia" />
           <ScalarProperty Name="cena_netto" ColumnName="cena_netto" />
           <ScalarProperty Name="procent_vat" ColumnName="procent_vat" />
-          <ScalarProperty Name="Faktura_produktuId_faktura_produktu" ColumnName="Faktura_produktuId_faktura_produktu" />
-          <ScalarProperty Name="cena_brutto" ColumnName="cena_brutto" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -514,6 +676,7 @@
           <ScalarProperty Name="Id_faktura_produktu" ColumnName="Id_faktura_produktu" />
           <ScalarProperty Name="Id_produktu" ColumnName="Id_produktu" />
           <ScalarProperty Name="numer_faktury" ColumnName="numer_faktury" />
+          <ScalarProperty Name="ilość" ColumnName="ilość" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -523,7 +686,6 @@
           <ScalarProperty Name="Id_zdjecia" ColumnName="Id_zdjecia" />
           <ScalarProperty Name="nazwa" ColumnName="nazwa" />
           <ScalarProperty Name="data" ColumnName="data" />
-          <ScalarProperty Name="Id_produktu" ColumnName="Id_produktu" />
           <ScalarProperty Name="ProduktId_produktu" ColumnName="ProduktId_produktu" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -553,29 +715,23 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="ProduktKategoria_produktu" TypeName="Model1.ProduktKategoria_produktu" StoreEntitySet="Kategoria_produktuSet">
-      <EndProperty Name="Produkt">
-        <ScalarProperty Name="Id_produktu" ColumnName="Produkt_Id_produktu" />
+    <AssociationSetMapping Name="Dane_kontaktowePracownik" TypeName="Model1.Dane_kontaktowePracownik" StoreEntitySet="PracownikSet">
+      <EndProperty Name="Dane_kontaktowe">
+        <ScalarProperty Name="Id_kontaktu" ColumnName="Dane_kontaktowe_Id_kontaktu" />
       </EndProperty>
-      <EndProperty Name="Kategoria_produktu">
-        <ScalarProperty Name="Id_kategoria_produktu" ColumnName="Id_kategoria_produktu" />
+      <EndProperty Name="Pracownik">
+        <ScalarProperty Name="Id_pracownika" ColumnName="Id_pracownika" />
       </EndProperty>
+      <Condition ColumnName="Dane_kontaktowe_Id_kontaktu" IsNull="false" />
     </AssociationSetMapping>
-    <AssociationSetMapping Name="Kategoria_produktuProducent" TypeName="Model1.Kategoria_produktuProducent" StoreEntitySet="Kategoria_produktuSet">
-      <EndProperty Name="Producent">
-        <ScalarProperty Name="Id_producenta" ColumnName="Producent_Id_producenta" />
+    <AssociationSetMapping Name="Dane_kontaktoweKlient" TypeName="Model1.Dane_kontaktoweKlient" StoreEntitySet="KlientSet">
+      <EndProperty Name="Dane_kontaktowe">
+        <ScalarProperty Name="Id_kontaktu" ColumnName="Dane_kontaktowe_Id_kontaktu" />
       </EndProperty>
-      <EndProperty Name="Kategoria_produktu">
-        <ScalarProperty Name="Id_kategoria_produktu" ColumnName="Id_kategoria_produktu" />
+      <EndProperty Name="Klient">
+        <ScalarProperty Name="Id_klienta" ColumnName="Id_klienta" />
       </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="KategoriaKategoria_produktu" TypeName="Model1.KategoriaKategoria_produktu" StoreEntitySet="Kategoria_produktuSet">
-      <EndProperty Name="Kategoria">
-        <ScalarProperty Name="Id_kategorii" ColumnName="Kategoria_Id_kategorii" />
-      </EndProperty>
-      <EndProperty Name="Kategoria_produktu">
-        <ScalarProperty Name="Id_kategoria_produktu" ColumnName="Id_kategoria_produktu" />
-      </EndProperty>
+      <Condition ColumnName="Dane_kontaktowe_Id_kontaktu" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>

@@ -20,6 +20,10 @@ namespace Sklep_Internetowy
         public string ulica { get; set; }
         public Nullable<int> numer_domu { get; set; }
         public Nullable<int> numer_lokalu { get; set; }
-        public Nullable<int> Klient_Id_klienta { get; set; }
+        public Nullable<int> PracownikId_pracownika1 { get; set; }
+        public Nullable<int> KlientId_klienta { get; set; }
+    
+        public virtual Pracownik Pracownik { get; set; }
+        public virtual Klient Klient { get; set; }
     }
 }

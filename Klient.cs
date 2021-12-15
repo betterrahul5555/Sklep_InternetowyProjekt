@@ -14,10 +14,21 @@ namespace Sklep_Internetowy
     
     public partial class Klient
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Klient()
+        {
+            this.Adres = new HashSet<Adres>();
+            this.Faktura = new HashSet<Faktura>();
+        }
+    
         public int Id_klienta { get; set; }
-        public Nullable<int> Id_kontaktu { get; set; }
-        public Nullable<int> Id_adresu { get; set; }
         public string imie { get; set; }
         public string nazwisko { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Adres> Adres { get; set; }
+        public virtual Dane_kontaktowe Dane_kontaktowe { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Faktura> Faktura { get; set; }
     }
 }

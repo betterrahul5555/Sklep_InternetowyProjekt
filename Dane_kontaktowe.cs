@@ -17,5 +17,8 @@ namespace Sklep_Internetowy
         public int Id_kontaktu { get; set; }
         public Nullable<int> numer { get; set; }
         public string emial { get; set; }
+    
+        public virtual Pracownik Pracownik { get; set; }
+        public virtual Klient Klient { get; set; }
     }
 }

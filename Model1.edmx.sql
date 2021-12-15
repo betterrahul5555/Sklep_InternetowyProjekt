@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/07/2021 12:17:30
+-- Date Created: 12/15/2021 23:29:01
 -- Generated from EDMX file: C:\Users\Janek\source\repos\Sklep_Internetowy\Model1.edmx
 -- --------------------------------------------------
 
@@ -17,23 +17,38 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_ProduktKategoria_produktu]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Kategoria_produktuSet] DROP CONSTRAINT [FK_ProduktKategoria_produktu];
-GO
 IF OBJECT_ID(N'[dbo].[FK_Kategoria_produktuProducent]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Kategoria_produktuSet] DROP CONSTRAINT [FK_Kategoria_produktuProducent];
 GO
 IF OBJECT_ID(N'[dbo].[FK_KategoriaKategoria_produktu]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Kategoria_produktuSet] DROP CONSTRAINT [FK_KategoriaKategoria_produktu];
 GO
+IF OBJECT_ID(N'[dbo].[FK_FakturaFaktura_produktu]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Faktura_produktuSet] DROP CONSTRAINT [FK_FakturaFaktura_produktu];
+GO
 IF OBJECT_ID(N'[dbo].[FK_Faktura_produktuProdukt]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[ProduktSet] DROP CONSTRAINT [FK_Faktura_produktuProdukt];
+    ALTER TABLE [dbo].[Faktura_produktuSet] DROP CONSTRAINT [FK_Faktura_produktuProdukt];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ProduktZdjęcia]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ZdjęciaSet] DROP CONSTRAINT [FK_ProduktZdjęcia];
 GO
-IF OBJECT_ID(N'[dbo].[FK_FakturaFaktura_produktu]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Faktura_produktuSet] DROP CONSTRAINT [FK_FakturaFaktura_produktu];
+IF OBJECT_ID(N'[dbo].[FK_AdresPracownik]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AdresSet] DROP CONSTRAINT [FK_AdresPracownik];
+GO
+IF OBJECT_ID(N'[dbo].[FK_KlientAdres]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AdresSet] DROP CONSTRAINT [FK_KlientAdres];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Dane_kontaktowePracownik]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PracownikSet] DROP CONSTRAINT [FK_Dane_kontaktowePracownik];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Dane_kontaktoweKlient]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[KlientSet] DROP CONSTRAINT [FK_Dane_kontaktoweKlient];
+GO
+IF OBJECT_ID(N'[dbo].[FK_KlientFaktura]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FakturaSet] DROP CONSTRAINT [FK_KlientFaktura];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Kategoria_produktuProdukt]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ProduktSet] DROP CONSTRAINT [FK_Kategoria_produktuProdukt];
 GO
 
 -- --------------------------------------------------
@@ -86,17 +101,17 @@ CREATE TABLE [dbo].[AdresSet] (
     [ulica] nvarchar(max)  NULL,
     [numer_domu] int  NULL,
     [numer_lokalu] int  NULL,
-    [Klient_Id_klienta] int  NULL
+    [PracownikId_pracownika1] int  NULL,
+    [KlientId_klienta] int  NULL
 );
 GO
 
 -- Creating table 'KlientSet'
 CREATE TABLE [dbo].[KlientSet] (
     [Id_klienta] int IDENTITY(1,1) NOT NULL,
-    [Id_kontaktu] int  NULL,
-    [Id_adresu] int  NULL,
     [imie] nvarchar(max)  NULL,
-    [nazwisko] nvarchar(max)  NULL
+    [nazwisko] nvarchar(max)  NULL,
+    [Dane_kontaktowe_Id_kontaktu] int  NULL
 );
 GO
 
@@ -106,8 +121,7 @@ CREATE TABLE [dbo].[PracownikSet] (
     [imie] nvarchar(max)  NULL,
     [nazwisko] nvarchar(max)  NULL,
     [data_zatrunienia] datetime  NULL,
-    [Id_adresu] int  NULL,
-    [Id_kontaktu] int  NULL
+    [Dane_kontaktowe_Id_kontaktu] int  NULL
 );
 GO
 
@@ -122,15 +136,12 @@ GO
 -- Creating table 'ProduktSet'
 CREATE TABLE [dbo].[ProduktSet] (
     [Id_produktu] int IDENTITY(1,1) NOT NULL,
-    [Id_kategorii_produktu] int  NULL,
+    [Id_kategorii_produktu] int  NOT NULL,
     [nazwa] nvarchar(max)  NULL,
     [opis] nvarchar(max)  NULL,
     [Id_zdjecia] int  NULL,
     [cena_netto] float  NULL,
-    [procent_vat] float  NULL,
-    [Faktura_produktuId_faktura_produktu] int  NULL,
-    [cena_brutto] float  NULL,
-    [Faktura_produktu_Id_faktura_produktu] int  NULL
+    [procent_vat] float  NULL
 );
 GO
 
@@ -141,7 +152,7 @@ CREATE TABLE [dbo].[FakturaSet] (
     [data_sprzedaży] datetime  NULL,
     [wartość_netto] float  NULL,
     [czy_dostawa] bit  NULL,
-    [procent_podatku] float  NOT NULL
+    [procent_podatku] float  NULL
 );
 GO
 
@@ -149,7 +160,8 @@ GO
 CREATE TABLE [dbo].[Faktura_produktuSet] (
     [Id_faktura_produktu] int IDENTITY(1,1) NOT NULL,
     [Id_produktu] int  NOT NULL,
-    [numer_faktury] int  NOT NULL
+    [numer_faktury] int  NOT NULL,
+    [ilość] int  NULL
 );
 GO
 
@@ -158,20 +170,15 @@ CREATE TABLE [dbo].[ZdjęciaSet] (
     [Id_zdjecia] int IDENTITY(1,1) NOT NULL,
     [nazwa] nvarchar(max)  NULL,
     [data] datetime  NULL,
-    [Id_produktu] int  NULL,
-    [ProduktId_produktu] int  NULL,
-    [Produkt_Id_produktu] int  NOT NULL
+    [ProduktId_produktu] int  NULL
 );
 GO
 
 -- Creating table 'Kategoria_produktuSet'
 CREATE TABLE [dbo].[Kategoria_produktuSet] (
     [Id_kategoria_produktu] int IDENTITY(1,1) NOT NULL,
-    [Id_producenta] int  NULL,
-    [Id_kategorii] int  NULL,
-    [Produkt_Id_produktu] int  NOT NULL,
-    [Producent_Id_producenta] int  NOT NULL,
-    [Kategoria_Id_kategorii] int  NOT NULL
+    [Id_producenta] int  NOT NULL,
+    [Id_kategorii] int  NOT NULL
 );
 GO
 
@@ -263,25 +270,10 @@ GO
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [Produkt_Id_produktu] in table 'Kategoria_produktuSet'
-ALTER TABLE [dbo].[Kategoria_produktuSet]
-ADD CONSTRAINT [FK_ProduktKategoria_produktu]
-    FOREIGN KEY ([Produkt_Id_produktu])
-    REFERENCES [dbo].[ProduktSet]
-        ([Id_produktu])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ProduktKategoria_produktu'
-CREATE INDEX [IX_FK_ProduktKategoria_produktu]
-ON [dbo].[Kategoria_produktuSet]
-    ([Produkt_Id_produktu]);
-GO
-
--- Creating foreign key on [Producent_Id_producenta] in table 'Kategoria_produktuSet'
+-- Creating foreign key on [Id_producenta] in table 'Kategoria_produktuSet'
 ALTER TABLE [dbo].[Kategoria_produktuSet]
 ADD CONSTRAINT [FK_Kategoria_produktuProducent]
-    FOREIGN KEY ([Producent_Id_producenta])
+    FOREIGN KEY ([Id_producenta])
     REFERENCES [dbo].[ProducentSet]
         ([Id_producenta])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -290,13 +282,13 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_Kategoria_produktuProducent'
 CREATE INDEX [IX_FK_Kategoria_produktuProducent]
 ON [dbo].[Kategoria_produktuSet]
-    ([Producent_Id_producenta]);
+    ([Id_producenta]);
 GO
 
--- Creating foreign key on [Kategoria_Id_kategorii] in table 'Kategoria_produktuSet'
+-- Creating foreign key on [Id_kategorii] in table 'Kategoria_produktuSet'
 ALTER TABLE [dbo].[Kategoria_produktuSet]
 ADD CONSTRAINT [FK_KategoriaKategoria_produktu]
-    FOREIGN KEY ([Kategoria_Id_kategorii])
+    FOREIGN KEY ([Id_kategorii])
     REFERENCES [dbo].[KategoriaSet]
         ([Id_kategorii])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -305,37 +297,7 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_KategoriaKategoria_produktu'
 CREATE INDEX [IX_FK_KategoriaKategoria_produktu]
 ON [dbo].[Kategoria_produktuSet]
-    ([Kategoria_Id_kategorii]);
-GO
-
--- Creating foreign key on [Faktura_produktu_Id_faktura_produktu] in table 'ProduktSet'
-ALTER TABLE [dbo].[ProduktSet]
-ADD CONSTRAINT [FK_Faktura_produktuProdukt]
-    FOREIGN KEY ([Faktura_produktu_Id_faktura_produktu])
-    REFERENCES [dbo].[Faktura_produktuSet]
-        ([Id_faktura_produktu])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_Faktura_produktuProdukt'
-CREATE INDEX [IX_FK_Faktura_produktuProdukt]
-ON [dbo].[ProduktSet]
-    ([Faktura_produktu_Id_faktura_produktu]);
-GO
-
--- Creating foreign key on [Produkt_Id_produktu] in table 'ZdjęciaSet'
-ALTER TABLE [dbo].[ZdjęciaSet]
-ADD CONSTRAINT [FK_ProduktZdjęcia]
-    FOREIGN KEY ([Produkt_Id_produktu])
-    REFERENCES [dbo].[ProduktSet]
-        ([Id_produktu])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ProduktZdjęcia'
-CREATE INDEX [IX_FK_ProduktZdjęcia]
-ON [dbo].[ZdjęciaSet]
-    ([Produkt_Id_produktu]);
+    ([Id_kategorii]);
 GO
 
 -- Creating foreign key on [numer_faktury] in table 'Faktura_produktuSet'
@@ -351,6 +313,126 @@ GO
 CREATE INDEX [IX_FK_FakturaFaktura_produktu]
 ON [dbo].[Faktura_produktuSet]
     ([numer_faktury]);
+GO
+
+-- Creating foreign key on [Id_produktu] in table 'Faktura_produktuSet'
+ALTER TABLE [dbo].[Faktura_produktuSet]
+ADD CONSTRAINT [FK_Faktura_produktuProdukt]
+    FOREIGN KEY ([Id_produktu])
+    REFERENCES [dbo].[ProduktSet]
+        ([Id_produktu])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Faktura_produktuProdukt'
+CREATE INDEX [IX_FK_Faktura_produktuProdukt]
+ON [dbo].[Faktura_produktuSet]
+    ([Id_produktu]);
+GO
+
+-- Creating foreign key on [ProduktId_produktu] in table 'ZdjęciaSet'
+ALTER TABLE [dbo].[ZdjęciaSet]
+ADD CONSTRAINT [FK_ProduktZdjęcia]
+    FOREIGN KEY ([ProduktId_produktu])
+    REFERENCES [dbo].[ProduktSet]
+        ([Id_produktu])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ProduktZdjęcia'
+CREATE INDEX [IX_FK_ProduktZdjęcia]
+ON [dbo].[ZdjęciaSet]
+    ([ProduktId_produktu]);
+GO
+
+-- Creating foreign key on [PracownikId_pracownika1] in table 'AdresSet'
+ALTER TABLE [dbo].[AdresSet]
+ADD CONSTRAINT [FK_AdresPracownik]
+    FOREIGN KEY ([PracownikId_pracownika1])
+    REFERENCES [dbo].[PracownikSet]
+        ([Id_pracownika])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AdresPracownik'
+CREATE INDEX [IX_FK_AdresPracownik]
+ON [dbo].[AdresSet]
+    ([PracownikId_pracownika1]);
+GO
+
+-- Creating foreign key on [KlientId_klienta] in table 'AdresSet'
+ALTER TABLE [dbo].[AdresSet]
+ADD CONSTRAINT [FK_KlientAdres]
+    FOREIGN KEY ([KlientId_klienta])
+    REFERENCES [dbo].[KlientSet]
+        ([Id_klienta])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_KlientAdres'
+CREATE INDEX [IX_FK_KlientAdres]
+ON [dbo].[AdresSet]
+    ([KlientId_klienta]);
+GO
+
+-- Creating foreign key on [Dane_kontaktowe_Id_kontaktu] in table 'PracownikSet'
+ALTER TABLE [dbo].[PracownikSet]
+ADD CONSTRAINT [FK_Dane_kontaktowePracownik]
+    FOREIGN KEY ([Dane_kontaktowe_Id_kontaktu])
+    REFERENCES [dbo].[Dane_kontaktoweSet]
+        ([Id_kontaktu])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Dane_kontaktowePracownik'
+CREATE INDEX [IX_FK_Dane_kontaktowePracownik]
+ON [dbo].[PracownikSet]
+    ([Dane_kontaktowe_Id_kontaktu]);
+GO
+
+-- Creating foreign key on [Dane_kontaktowe_Id_kontaktu] in table 'KlientSet'
+ALTER TABLE [dbo].[KlientSet]
+ADD CONSTRAINT [FK_Dane_kontaktoweKlient]
+    FOREIGN KEY ([Dane_kontaktowe_Id_kontaktu])
+    REFERENCES [dbo].[Dane_kontaktoweSet]
+        ([Id_kontaktu])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Dane_kontaktoweKlient'
+CREATE INDEX [IX_FK_Dane_kontaktoweKlient]
+ON [dbo].[KlientSet]
+    ([Dane_kontaktowe_Id_kontaktu]);
+GO
+
+-- Creating foreign key on [Id_klienta] in table 'FakturaSet'
+ALTER TABLE [dbo].[FakturaSet]
+ADD CONSTRAINT [FK_KlientFaktura]
+    FOREIGN KEY ([Id_klienta])
+    REFERENCES [dbo].[KlientSet]
+        ([Id_klienta])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_KlientFaktura'
+CREATE INDEX [IX_FK_KlientFaktura]
+ON [dbo].[FakturaSet]
+    ([Id_klienta]);
+GO
+
+-- Creating foreign key on [Id_kategorii_produktu] in table 'ProduktSet'
+ALTER TABLE [dbo].[ProduktSet]
+ADD CONSTRAINT [FK_Kategoria_produktuProdukt]
+    FOREIGN KEY ([Id_kategorii_produktu])
+    REFERENCES [dbo].[Kategoria_produktuSet]
+        ([Id_kategoria_produktu])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Kategoria_produktuProdukt'
+CREATE INDEX [IX_FK_Kategoria_produktuProdukt]
+ON [dbo].[ProduktSet]
+    ([Id_kategorii_produktu]);
 GO
 
 -- --------------------------------------------------

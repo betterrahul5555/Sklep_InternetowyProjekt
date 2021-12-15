@@ -14,11 +14,19 @@ namespace Sklep_Internetowy
     
     public partial class Pracownik
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Pracownik()
+        {
+            this.Adres = new HashSet<Adres>();
+        }
+    
         public int Id_pracownika { get; set; }
         public string imie { get; set; }
         public string nazwisko { get; set; }
         public Nullable<System.DateTime> data_zatrunienia { get; set; }
-        public Nullable<int> Id_adresu { get; set; }
-        public Nullable<int> Id_kontaktu { private get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Adres> Adres { get; set; }
+        public virtual Dane_kontaktowe Dane_kontaktowe { get; set; }
     }
 }

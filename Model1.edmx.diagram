@@ -4,24 +4,29 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="63ae3bf7edc14ffcbaec40293b549aa2" Name="Diagram1" ZoomLevel="64" >
-        <EntityTypeShape EntityType="Model1.Adres" Width="1.5" PointX="4.75" PointY="1" />
-        <EntityTypeShape EntityType="Model1.Klient" Width="1.5" PointX="2.25" PointY="1.75" />
-        <EntityTypeShape EntityType="Model1.Pracownik" Width="1.5" PointX="7.5" PointY="0.875" />
-        <EntityTypeShape EntityType="Model1.Dane_kontaktowe" Width="1.5" PointX="4.625" PointY="3.75" />
+      <Diagram DiagramId="63ae3bf7edc14ffcbaec40293b549aa2" Name="Diagram1" ZoomLevel="77" >
+        <EntityTypeShape EntityType="Model1.Adres" Width="1.5" PointX="5" PointY="0.5" />
+        <EntityTypeShape EntityType="Model1.Klient" Width="1.5" PointX="2.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Pracownik" Width="1.5" PointX="7.625" PointY="1.375" />
+        <EntityTypeShape EntityType="Model1.Dane_kontaktowe" Width="1.5" PointX="4.875" PointY="3.75" />
         <EntityTypeShape EntityType="Model1.Produkt" Width="1.5" PointX="7" PointY="4.375" />
         <EntityTypeShape EntityType="Model1.Faktura" Width="1.5" PointX="2.125" PointY="5.625" />
         <EntityTypeShape EntityType="Model1.Faktura_produktu" Width="1.5" PointX="4.75" PointY="6.5" />
         <EntityTypeShape EntityType="Model1.Zdjęcia" Width="1.5" PointX="9.75" PointY="4.25" />
         <EntityTypeShape EntityType="Model1.Kategoria_produktu" Width="1.5" PointX="8.5" PointY="8.625" />
         <EntityTypeShape EntityType="Model1.Kategoria" Width="1.5" PointX="6.125" PointY="9.625" />
-        <AssociationConnector Association="Model1.ProduktKategoria_produktu" />
         <EntityTypeShape EntityType="Model1.Producent" Width="1.5" PointX="10.75" PointY="9.25" />
         <AssociationConnector Association="Model1.Kategoria_produktuProducent" />
         <AssociationConnector Association="Model1.KategoriaKategoria_produktu" />
         <AssociationConnector Association="Model1.FK_FakturaFaktura_produktu" />
         <AssociationConnector Association="Model1.FK_Faktura_produktuProdukt" />
         <AssociationConnector Association="Model1.FK_ProduktZdjęcia" />
+        <AssociationConnector Association="Model1.AdresPracownik" />
+        <AssociationConnector Association="Model1.KlientAdres" />
+        <AssociationConnector Association="Model1.Dane_kontaktowePracownik" />
+        <AssociationConnector Association="Model1.Dane_kontaktoweKlient" />
+        <AssociationConnector Association="Model1.KlientFaktura" />
+        <AssociationConnector Association="Model1.Kategoria_produktuProdukt" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
