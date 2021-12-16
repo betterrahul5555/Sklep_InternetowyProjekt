@@ -1399,7 +1399,7 @@ namespace Sklep_Internetowy
                             if (tabela3 == "Klient")
                             {
                                 Klient kl;
-                                Dane_kontaktowe  dk;
+                         
                                 Adres adr;
                                 Faktura fk;
                                 int id_klienta_do_usuniecia = AnsiConsole.Ask<int>("Podaj [blue]ID klienta, którego chcesz usunąć z bazy:[/]");
@@ -1412,8 +1412,7 @@ namespace Sklep_Internetowy
                                
                                    
 
-                                   // dk = db.Dane_kontaktoweSet.Where(a => a.Klient==kl);
-                                   // db.Dane_kontaktoweSet.Remove(dk);
+           
 
                                     adr = db.AdresSet.Where(a => a.KlientId_klienta == id_klienta_do_usuniecia).First();
                                     db.AdresSet.Remove(adr);
@@ -1441,7 +1440,7 @@ namespace Sklep_Internetowy
                             if (tabela3 == "Pracownik")
                             {
                                 Pracownik pr;
-                                Dane_kontaktowe dk;
+                               
                                 Adres adr;
                                 int id_pracownika_do_usuniecia = AnsiConsole.Ask<int>("Podaj [blue]ID pracownika, którego chcesz usunąć z bazy:[/]");
 
@@ -1506,7 +1505,7 @@ namespace Sklep_Internetowy
                             {
                                 Produkt produkt;
                                 Zdjęcia zdj;
-                                Faktura_produktu fkp;
+                                
                                 int id_produktu_do_usuniecia = AnsiConsole.Ask<int>("Podaj [blue]ID produktu, który chcesz usunąć z bazy:[/]");
 
                                 try
